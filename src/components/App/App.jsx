@@ -9,8 +9,10 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import socket from '../../socket/socket';
 
 import './App.css';
+import GlobalChat from '../GlobalChat/GlobalChat';
 
 function App() {
 	const dispatch = useDispatch();
@@ -18,8 +20,10 @@ function App() {
 	const user = useSelector((store) => store.user);
 
 	useEffect(() => {
+		socket.auth = { user };
+		socket.connect();
 		dispatch({ type: 'FETCH_USER' });
-	}, [dispatch]);
+	}, [dispatch, socket]);
 
 	return (
 		<Router>
@@ -52,6 +56,13 @@ function App() {
 						exact
 						path='/info'>
 						<InfoPage />
+					</ProtectedRoute>
+
+					<ProtectedRoute
+						// logged in shows InfoPage else shows LoginPage
+						exact
+						path='/global'>
+						<GlobalChat />
 					</ProtectedRoute>
 
 					<Route exact path='/login'>
