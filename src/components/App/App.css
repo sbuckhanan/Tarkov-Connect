@@ -68,13 +68,12 @@ Button
 	border-radius: 0;
 	background: none;
 	font: inherit;
-	color: #444;
+	color: rgb(72, 133, 255);
 }
 
 .btn_asLink:hover {
 	background-color: transparent;
 	border-color: #008183;
-	color: #008183;
 }
 
 /* --------------------------------------------------------------------------------

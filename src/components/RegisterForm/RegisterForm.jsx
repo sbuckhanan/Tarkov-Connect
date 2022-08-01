@@ -25,63 +25,65 @@ function RegisterForm() {
 
 	return (
 		<form className='formPanel' onSubmit={registerUser}>
-			<h2>Create New Account</h2>
-			{errors.registrationMessage && (
-				<h3 className='alert' role='alert'>
-					{errors.registrationMessage}
-				</h3>
-			)}
-			<div>
-				<label htmlFor='username'>
-					Email:
-					<input
-						type='text'
-						name='username'
-						value={username}
-						required
-						onChange={(event) => setUsername(event.target.value)}
-					/>
-				</label>
-			</div>
-			<div>
-				<label htmlFor='password'>
-					Password:
-					<input
-						type='password'
-						name='password'
-						value={password}
-						required
-						onChange={(event) => setPassword(event.target.value)}
-					/>
-				</label>
-			</div>
-			<div>
-				<label htmlFor='tarkovName'>
-					Tarkov Name:
-					<input
-						type='text'
-						name='tarkovName'
-						value={tarkov_name}
-						required
-						onChange={(event) => setTarkovName(event.target.value)}
-					/>
-				</label>
-			</div>
-			<div>
-				<label htmlFor='level'>
-					Tarkov Level:
-					<input
-						type='number'
-						name='level'
-						value={level}
-						required
-						onChange={(event) => setLevel(event.target.value)}
-					/>
-				</label>
-			</div>
-			<div>
-				<input className='btn' type='submit' name='submit' value='Register' />
-			</div>
+			<center>
+				<h2>Create New Account</h2>
+				{errors.registrationMessage && (
+					<h3 className='alert' role='alert'>
+						{errors.registrationMessage}
+					</h3>
+				)}
+				<div>
+					<label htmlFor='username'>
+						Email:
+						<input
+							type='text'
+							name='username'
+							value={username}
+							required
+							onChange={(event) => setUsername(event.target.value)}
+						/>
+					</label>
+				</div>
+				<div>
+					<label htmlFor='password'>
+						Password:
+						<input
+							type='password'
+							name='password'
+							value={password}
+							required
+							onChange={(event) => setPassword(event.target.value)}
+						/>
+					</label>
+				</div>
+				<div>
+					<label htmlFor='tarkovName'>
+						Tarkov Name:
+						<input
+							type='text'
+							name='tarkovName'
+							value={tarkov_name}
+							required
+							onChange={(event) => setTarkovName(event.target.value)}
+						/>
+					</label>
+				</div>
+				<div>
+					<label htmlFor='level'>
+						Tarkov Level:
+						<input
+							type='number'
+							name='level'
+							value={level}
+							required
+							onChange={(event) => setLevel(event.target.value)}
+						/>
+					</label>
+				</div>
+				<div>
+					<input className='btn' type='submit' name='submit' value='Register' />
+				</div>
+			</center>
 		</form>
 	);
 }
