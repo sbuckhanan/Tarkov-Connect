@@ -18,10 +18,14 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import MessageIcon from '@mui/icons-material/Message';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import HomeIcon from '@mui/icons-material/Home';
+import PeopleIcon from '@mui/icons-material/People';
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 //? end of those testing
 
 function GlobalChat() {
@@ -30,6 +34,13 @@ function GlobalChat() {
 	const dispatch = useDispatch();
 	const user = useSelector((store) => store.user);
 	const history = useHistory();
+
+	const [messageOpen, setMessageOpen] = useState(false);
+	const [friendOpen, setFriendOpen] = useState(false);
+
+	const handleClick = () => {
+		setOpen(!open);
+	};
 
 	const sendMessage = () => {
 		//? Send to saga to post, saga will call the socket event to update everyone's DOM
@@ -77,17 +88,102 @@ function GlobalChat() {
 				variant='permanent'
 				anchor='left'>
 				<Toolbar />
-				USERNAME
+				{user.tarkov_name}
 				<Divider />
 				<List>
-					{['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-						<ListItem key={text} disablePadding>
-							<ListItemButton>
-								<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-								<ListItemText primary={text} />
-							</ListItemButton>
-						</ListItem>
-					))}
+					<ListItem disablePadding>
+						<ListItemButton>
+							<ListItemIcon>
+								<HomeIcon />
+							</ListItemIcon>
+							<ListItemText primary='Home' />
+						</ListItemButton>
+					</ListItem>
+					<ListItem disablePadding>
+						{/* <ListItemButton>
+							<ListItemIcon>
+								<PeopleIcon />
+							</ListItemIcon>
+							<ListItemText primary='Friends' />
+						</ListItemButton> */}
+					</ListItem>
+					<ListItemButton onClick={() => setFriendOpen(!friendOpen)}>
+						<ListItemIcon>
+							<PeopleIcon />
+						</ListItemIcon>
+						<ListItemText primary='Friends' />
+						{friendOpen ? <ExpandLess /> : <ExpandMore />}
+					</ListItemButton>
+					<Collapse in={friendOpen} timeout='auto' unmountOnExit>
+						<List component='div' style={{ maxHeight: 150, overflow: 'auto' }} disablePadding>
+							<ListItem alignItems='flex-start'>
+								<ListItemText
+									secondary={
+										<>
+											<Typography
+												sx={{ display: 'inline' }}
+												component='span'
+												variant='body2'
+												color='text.primary'>
+												Ali Connors
+											</Typography>
+										</>
+									}
+								/>
+							</ListItem>
+						</List>
+					</Collapse>
+					{/* first drop down */}
+					<ListItemButton onClick={() => setMessageOpen(!messageOpen)}>
+						<ListItemIcon>
+							<MessageIcon />
+						</ListItemIcon>
+						<ListItemText primary='Messages' />
+						{messageOpen ? <ExpandLess /> : <ExpandMore />}
+					</ListItemButton>
+					<Collapse in={messageOpen} timeout='auto' unmountOnExit>
+						<List component='div' style={{ maxHeight: 150, overflow: 'auto' }} disablePadding>
+							<ListItem alignItems='flex-start'>
+								<ListItemText
+									secondary={
+										<React.Fragment>
+											<Typography
+												sx={{ display: 'inline' }}
+												component='span'
+												variant='body2'
+												color='text.primary'>
+												Ali Connors
+											</Typography>
+											{" — I'll be in your neighborhood doing errands this…"}
+										</React.Fragment>
+									}
+								/>
+							</ListItem>
+							<ListItem alignItems='flex-start'>
+								<ListItemText
+									secondary={
+										<React.Fragment>
+											<Typography
+												sx={{ display: 'inline' }}
+												component='span'
+												variant='body2'
+												color='text.primary'>
+												Ali Connors
+											</Typography>
+											{" — I'll be in your neighborhood doing errands this…"}
+										</React.Fragment>
+									}
+								/>
+							</ListItem>
+						</List>
+					</Collapse>
+					<Toolbar />
+					<ListItem disablePadding>
+						<ListItemButton>
+							<ListItemIcon>{<MessageIcon />}</ListItemIcon>
+							<ListItemText primary='Sign Out' />
+						</ListItemButton>
+					</ListItem>
 				</List>
 				<Divider />
 			</Drawer>
