@@ -3,6 +3,9 @@ body,
 #react-root {
 	height: 100%;
 	background-image: url('/public/images/949fb1c4a6b9ec235ad36e747fbcf59a.png');
+	overflow: hidden;
+	overscroll-behavior-x: none;
+	overscroll-behavior-y: none;
 }
 
 body {
@@ -110,4 +113,10 @@ Form Treatment
 input {
 	margin: 5px;
 	margin-bottom: 10px;
+}
+
+.mainContainer {
+	background: #f3f4f6;
+	grid-area: main;
+	overflow-y: auto;
 }
