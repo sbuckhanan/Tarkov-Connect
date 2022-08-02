@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import socket from '../../socket/socket';
@@ -25,6 +25,11 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import Button from '@mui/material/Button';
+
 const drawerWidth = 280;
 //? end of those testing
 
@@ -38,13 +43,16 @@ function GlobalChat() {
 	const [messageOpen, setMessageOpen] = useState(false);
 	const [friendOpen, setFriendOpen] = useState(false);
 
-	const handleClick = () => {
-		setOpen(!open);
+	const messagesEndRef = useRef(null);
+
+	const scrollToBottom = () => {
+		messagesEndRef.current?.scrollIntoView();
 	};
 
 	const sendMessage = () => {
 		//? Send to saga to post, saga will call the socket event to update everyone's DOM
 		dispatch({ type: 'POST_MESSAGE', payload: { message } });
+		scrollToBottom();
 	};
 
 	const privateMessage = (id) => {
@@ -57,10 +65,12 @@ function GlobalChat() {
 	useEffect(() => {
 		//? this gets messages from the db on page load
 		dispatch({ type: 'GET_MESSAGES' });
+		scrollToBottom();
 		//? this is what server sends
 		socket.on('receive_message', (data) => {
 			//? Will need to a dispatch to get all messages??
 			dispatch({ type: 'GET_MESSAGES' });
+			scrollToBottom();
 		});
 	}, [socket, dispatch]);
 
@@ -99,14 +109,7 @@ function GlobalChat() {
 							<ListItemText primary='Home' />
 						</ListItemButton>
 					</ListItem>
-					<ListItem disablePadding>
-						{/* <ListItemButton>
-							<ListItemIcon>
-								<PeopleIcon />
-							</ListItemIcon>
-							<ListItemText primary='Friends' />
-						</ListItemButton> */}
-					</ListItem>
+					<ListItem disablePadding></ListItem>
 					<ListItemButton onClick={() => setFriendOpen(!friendOpen)}>
 						<ListItemIcon>
 							<PeopleIcon />
@@ -178,7 +181,7 @@ function GlobalChat() {
 						</List>
 					</Collapse>
 					<Toolbar />
-					<ListItem disablePadding>
+					<ListItem onClick={() => dispatch({ type: 'LOGOUT' })} disablePadding>
 						<ListItemButton>
 							<ListItemIcon>{<MessageIcon />}</ListItemIcon>
 							<ListItemText primary='Sign Out' />
@@ -189,25 +192,34 @@ function GlobalChat() {
 			</Drawer>
 			<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
 				<Toolbar />
-				<List style={{ maxHeight: 550, overflow: 'auto' }}>
+				<List id='messageScroll' style={{ maxHeight: 550, overflow: 'auto' }}>
 					{messages.map((message) => (
 						<div className='messageCard' key={message.id}>
 							{message.user_id === user.id ? (
-								<h2>
-									ME <span>{message.time}</span>
-								</h2>
+								<h3>
+									ME <span className='messageTime'>{message.time}</span>
+								</h3>
 							) : (
-								<h2 onClick={() => privateMessage(message.user_id)}>
+								<h3 onClick={() => privateMessage(message.user_id)}>
 									{message.username} <span>{message.time}</span>
-								</h2>
+								</h3>
 							)}
 							<p>{message.description}</p>
 						</div>
 					))}
+					<div ref={messagesEndRef} />
 				</List>
 				<center>
-					<input type='text' name='' id='' />
-					<button>Click Me</button>
+					<OutlinedInput
+						placeholder='Message...'
+						sx={{ m: 1, width: 600 }}
+						id='Message'
+						label='Message'
+						onChange={(e) => setMessage(e.target.value)}
+					/>
+					<Button onClick={sendMessage} variant='contained'>
+						Send
+					</Button>
 				</center>
 			</Box>
 		</Box>
