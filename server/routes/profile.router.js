@@ -4,7 +4,7 @@ const pool = require('../modules/pool');
 const moment = require('moment');
 
 // This route should return all of the messages
-router.get('/info/:id', (req, res) => {
+router.get('/feedback/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {
 		const queryText =
@@ -23,14 +23,15 @@ router.get('/info/:id', (req, res) => {
 	}
 });
 
-router.get('/average/:id', (req, res) => {
+router.get('/info/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {
-		const queryText = 'SELECT round(avg(rating), 2) FROM feedback WHERE receiver_user_id = $1;';
+		const queryText =
+			'SELECT "user".id, "user".tarkov_name, "user".tarkov_level, round(avg(rating), 2) AS rating FROM feedback JOIN "user" ON "user".id = feedback.receiver_user_id WHERE receiver_user_id = $1 GROUP BY "user".tarkov_name, "user".tarkov_level, "user".id;';
 		pool
 			.query(queryText, [id])
 			.then((result) => {
-				res.send(result.rows);
+				res.send(result.rows[0]);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -42,23 +43,24 @@ router.get('/average/:id', (req, res) => {
 });
 
 //? This will post a new message
-// router.post('/', (req, res) => {
-// 	const timePosted = moment().format('LLL');
-// 	console.log('THIS IS THE USER', req.user);
-// 	if (req.isAuthenticated()) {
-// 		let queryText = `INSERT INTO messages (description, time, user_id) VALUES ($1, $2, $3);`;
-// 		pool
-// 			.query(queryText, [req.body.message, timePosted, req.user.id])
-// 			.then((result) => {
-// 				res.sendStatus(200);
-// 			})
-// 			.catch((error) => {
-// 				console.log('Error Posting new pet', error);
-// 				res.sendStatus(500);
-// 			});
-// 	} else {
-// 		res.sendStatus(403);
-// 	}
-// });
+router.post('/feedback', (req, res) => {
+	const timePosted = moment().format('LLL');
+	const { rating, comment, receiver } = req.body;
+	console.log('THIS IS THE USER', req.user);
+	if (req.isAuthenticated()) {
+		let queryText = `INSERT INTO feedback (rating, comment, time, sender_user_id, receiver_user_id) VALUES ($1, $2, $3, $4, $5);`;
+		pool
+			.query(queryText, [rating, comment, timePosted, req.user.id, receiver])
+			.then((result) => {
+				res.sendStatus(200);
+			})
+			.catch((error) => {
+				console.log('Error Posting new pet', error);
+				res.sendStatus(500);
+			});
+	} else {
+		res.sendStatus(403);
+	}
+});
 
 module.exports = router;

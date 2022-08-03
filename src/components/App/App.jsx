@@ -10,6 +10,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import socket from '../../socket/socket';
+import Profile from '../Profile/Profile';
 
 import './App.css';
 import GlobalChat from '../GlobalChat/GlobalChat';
@@ -20,9 +21,9 @@ function App() {
 	const user = useSelector((store) => store.user);
 
 	useEffect(() => {
+		dispatch({ type: 'FETCH_USER' });
 		socket.auth = { user };
 		socket.connect();
-		dispatch({ type: 'FETCH_USER' });
 	}, [dispatch, socket]);
 
 	return (
@@ -64,12 +65,18 @@ function App() {
 						path='/global'>
 						<GlobalChat />
 					</ProtectedRoute>
+					<ProtectedRoute
+						// logged in shows InfoPage else shows LoginPage
+						exact
+						path='/profile/:username'>
+						<Profile />
+					</ProtectedRoute>
 
 					<Route exact path='/login'>
 						{user.id ? (
 							// If the user is already logged in,
 							// redirect to the /user page
-							<Redirect to='/user' />
+							<Redirect to='/global' />
 						) : (
 							// Otherwise, show the login page
 							<LoginPage />
@@ -80,7 +87,7 @@ function App() {
 						{user.id ? (
 							// If the user is already logged in,
 							// redirect them to the /user page
-							<Redirect to='/user' />
+							<Redirect to='/global' />
 						) : (
 							// Otherwise, show the registration page
 							<RegisterPage />
@@ -91,7 +98,7 @@ function App() {
 						{user.id ? (
 							// If the user is already logged in,
 							// redirect them to the /user page
-							<Redirect to='/user' />
+							<Redirect to='/global' />
 						) : (
 							// Otherwise, show the Landing page
 							<LandingPage />

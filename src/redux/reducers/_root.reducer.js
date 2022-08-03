@@ -4,6 +4,7 @@ import user from './user.reducer';
 import messages from './messages.reducer';
 import receiverId from './receiver.reducer';
 import privateMessages from './privateMessages.reducer';
+import profile from './profile.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
 	messages,
 	receiverId,
 	privateMessages,
+	profile,
 });
 
 export default rootReducer;

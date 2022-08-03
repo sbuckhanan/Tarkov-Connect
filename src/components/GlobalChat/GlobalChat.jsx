@@ -3,31 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import socket from '../../socket/socket';
 import './GlobalChat.css';
+import SideBar from '../SideBar/SideBar';
 
 //? Testing
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MessageIcon from '@mui/icons-material/Message';
-import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import HomeIcon from '@mui/icons-material/Home';
-import PeopleIcon from '@mui/icons-material/People';
-import LogoutIcon from '@mui/icons-material/Logout';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Button from '@mui/material/Button';
 
-const drawerWidth = 280;
 //? end of those testing
 
 function GlobalChat() {
@@ -36,9 +20,6 @@ function GlobalChat() {
 	const dispatch = useDispatch();
 	const user = useSelector((store) => store.user);
 	const history = useHistory();
-
-	const [messageOpen, setMessageOpen] = useState(false);
-	const [friendOpen, setFriendOpen] = useState(false);
 
 	const messagesEndRef = useRef(null);
 
@@ -57,10 +38,12 @@ function GlobalChat() {
 	// };
 
 	const goToProfile = (id) => {
+		console.log('HERE IS THE ID', id);
 		//? Dispatch to get all the user information. This includes tarkov name, level, trust rating, and their current feedbacks
 		//? Also need to history push.
 		//? All this info should go into one reducer
-		dispatch({ type: 'GET_PROFILE', payload: id });
+		dispatch({ type: 'GET_PROFILE', payload: id.user_id });
+		history.push(`/profile/${id.tarkov_name}`);
 	};
 
 	//? Will need this use effect to load messages on page load
@@ -80,122 +63,7 @@ function GlobalChat() {
 
 	return (
 		<Box sx={{ display: 'flex' }}>
-			<CssBaseline />
-			<AppBar
-				position='fixed'
-				sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
-				<Toolbar>
-					<Typography variant='h6' noWrap component='div'>
-						Tarkov Connect
-					</Typography>
-				</Toolbar>
-			</AppBar>
-			<Drawer
-				sx={{
-					width: drawerWidth,
-					flexShrink: 0,
-					'& .MuiDrawer-paper': {
-						width: drawerWidth,
-						boxSizing: 'border-box',
-					},
-				}}
-				variant='permanent'
-				anchor='left'>
-				<Toolbar />
-				{user.tarkov_name}
-				<Divider />
-				<List>
-					<ListItem disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								<HomeIcon />
-							</ListItemIcon>
-							<ListItemText primary='Home' />
-						</ListItemButton>
-					</ListItem>
-					<ListItem disablePadding></ListItem>
-					<ListItemButton onClick={() => setFriendOpen(!friendOpen)}>
-						<ListItemIcon>
-							<PeopleIcon />
-						</ListItemIcon>
-						<ListItemText primary='Friends' />
-						{friendOpen ? <ExpandLess /> : <ExpandMore />}
-					</ListItemButton>
-					<Collapse in={friendOpen} timeout='auto' unmountOnExit>
-						<List component='div' style={{ maxHeight: 150, overflow: 'auto' }} disablePadding>
-							<ListItem alignItems='flex-start'>
-								<ListItemText
-									secondary={
-										<>
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'>
-												Ali Connors
-											</Typography>
-										</>
-									}
-								/>
-							</ListItem>
-						</List>
-					</Collapse>
-					{/* first drop down */}
-					<ListItemButton onClick={() => setMessageOpen(!messageOpen)}>
-						<ListItemIcon>
-							<MessageIcon />
-						</ListItemIcon>
-						<ListItemText primary='Messages' />
-						{messageOpen ? <ExpandLess /> : <ExpandMore />}
-					</ListItemButton>
-					<Collapse in={messageOpen} timeout='auto' unmountOnExit>
-						<List component='div' style={{ maxHeight: 150, overflow: 'auto' }} disablePadding>
-							<ListItem alignItems='flex-start'>
-								<ListItemText
-									secondary={
-										<>
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'>
-												Ali Connors
-											</Typography>
-											{" — I'll be in your neighborhood doing errands this…"}
-										</>
-									}
-								/>
-							</ListItem>
-							<ListItem alignItems='flex-start'>
-								<ListItemText
-									secondary={
-										<>
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'>
-												Ali Connors
-											</Typography>
-											{" — I'll be in your neighborhood doing errands this…"}
-										</>
-									}
-								/>
-							</ListItem>
-						</List>
-					</Collapse>
-					<Toolbar />
-					<ListItem onClick={() => dispatch({ type: 'LOGOUT' })} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								<LogoutIcon />
-							</ListItemIcon>
-							<ListItemText primary='Log Out' />
-						</ListItemButton>
-					</ListItem>
-				</List>
-				<Divider />
-			</Drawer>
+			<SideBar />
 			<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
 				<Toolbar />
 				<List id='messageScroll' style={{ maxHeight: 550, overflow: 'auto' }}>
@@ -216,7 +84,7 @@ function GlobalChat() {
 							) : (
 								<>
 									<h3 className='messageName'>
-										<span className='underlineName' onClick={() => privateMessage(message.user_id)}>
+										<span className='underlineName' onClick={() => goToProfile(message)}>
 											{message.tarkov_name}
 										</span>
 										<span className='messageTime'> {message.time}</span>

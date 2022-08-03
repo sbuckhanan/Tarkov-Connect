@@ -4,16 +4,27 @@ import axios from 'axios';
 function* getProfile(action) {
 	try {
 		// clear any existing error on the login page
-		const profile = yield axios.get(`/api/profile/info/${action.payload}`);
-		const average = yield axios.get(`/api/profile/average/${action.payload}`);
-		yield put({ type: 'SET_MESSAGES', payload: messages.data });
+		const feedback = yield axios.get(`/api/profile/feedback/${action.payload}`);
+		const info = yield axios.get(`/api/profile/info/${action.payload}`);
+		yield put({ type: 'SET_PROFILE', payload: { feedback: feedback.data, info: info.data } });
 	} catch (error) {
 		console.log('Error with get messages:', error);
 	}
 }
 
-function* messageSaga() {
-	yield takeLatest('GET_PROFILE', getProfile);
+function* addFeedback(action) {
+	try {
+		// clear any existing error on the login page
+		yield axios.post(`/api/profile/feedback`, action.payload);
+		yield put({ type: 'GET_PROFILE', payload: action.payload.receiver });
+	} catch (error) {
+		console.log('Error with get messages:', error);
+	}
 }
 
-export default messageSaga;
+function* profileSaga() {
+	yield takeLatest('GET_PROFILE', getProfile);
+	yield takeLatest('ADD_FEEDBACK', addFeedback);
+}
+
+export default profileSaga;

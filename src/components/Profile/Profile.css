@@ -1,0 +1,15 @@
+.red {
+	color: red;
+}
+.yellow {
+	color: rgb(255, 255, 0);
+}
+.green {
+	color: rgb(8, 201, 8);
+}
+.profileContainer {
+	background-color: rgba(0, 0, 0, 0.529);
+	color: white;
+	width: 80%;
+	border-radius: 10px;
+}
