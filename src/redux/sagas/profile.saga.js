@@ -4,7 +4,8 @@ import axios from 'axios';
 function* getProfile(action) {
 	try {
 		// clear any existing error on the login page
-		const profile = yield axios.get('/api/messages');
+		const profile = yield axios.get(`/api/profile/info/${action.payload}`);
+		const average = yield axios.get(`/api/profile/average/${action.payload}`);
 		yield put({ type: 'SET_MESSAGES', payload: messages.data });
 	} catch (error) {
 		console.log('Error with get messages:', error);
