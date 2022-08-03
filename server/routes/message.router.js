@@ -6,7 +6,7 @@ const moment = require('moment');
 // This route should return all of the messages
 router.get('/', (req, res) => {
 	if (req.isAuthenticated()) {
-		let queryText = `SELECT messages.id, messages.description, messages.time, messages.user_id, "user".username FROM "messages" JOIN "user" ON "user".id = messages.user_id;`;
+		let queryText = `SELECT messages.id, messages.description, messages.time, messages.user_id, "user".tarkov_name FROM "messages" JOIN "user" ON "user".id = messages.user_id;`;
 		pool
 			.query(queryText)
 			.then((result) => {

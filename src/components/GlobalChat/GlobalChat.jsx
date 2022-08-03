@@ -5,7 +5,6 @@ import socket from '../../socket/socket';
 import './GlobalChat.css';
 
 //? Testing
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -24,10 +23,8 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
-
-import FormControl from '@mui/material/FormControl';
+import LogoutIcon from '@mui/icons-material/Logout';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 
 const drawerWidth = 280;
@@ -52,12 +49,18 @@ function GlobalChat() {
 	const sendMessage = () => {
 		//? Send to saga to post, saga will call the socket event to update everyone's DOM
 		dispatch({ type: 'POST_MESSAGE', payload: { message } });
-		scrollToBottom();
 	};
 
-	const privateMessage = (id) => {
-		dispatch({ type: 'SET_RECEIVER_ID', payload: id });
-		history.push('/private');
+	// const privateMessage = (id) => {
+	// 	dispatch({ type: 'SET_RECEIVER_ID', payload: id });
+	// 	history.push('/private');
+	// };
+
+	const goToProfile = (id) => {
+		//? Dispatch to get all the user information. This includes tarkov name, level, trust rating, and their current feedbacks
+		//? Also need to history push.
+		//? All this info should go into one reducer
+		dispatch({ type: 'GET_PROFILE', payload: id });
 	};
 
 	//? Will need this use effect to load messages on page load
@@ -72,7 +75,8 @@ function GlobalChat() {
 			dispatch({ type: 'GET_MESSAGES' });
 			scrollToBottom();
 		});
-	}, [socket, dispatch]);
+		//? Can not add scroll to bottom as a dependency in the array. Causes infinite get request to saga
+	}, [socket, dispatch, messagesEndRef.current]);
 
 	return (
 		<Box sx={{ display: 'flex' }}>
@@ -149,7 +153,7 @@ function GlobalChat() {
 							<ListItem alignItems='flex-start'>
 								<ListItemText
 									secondary={
-										<React.Fragment>
+										<>
 											<Typography
 												sx={{ display: 'inline' }}
 												component='span'
@@ -158,14 +162,14 @@ function GlobalChat() {
 												Ali Connors
 											</Typography>
 											{" — I'll be in your neighborhood doing errands this…"}
-										</React.Fragment>
+										</>
 									}
 								/>
 							</ListItem>
 							<ListItem alignItems='flex-start'>
 								<ListItemText
 									secondary={
-										<React.Fragment>
+										<>
 											<Typography
 												sx={{ display: 'inline' }}
 												component='span'
@@ -174,7 +178,7 @@ function GlobalChat() {
 												Ali Connors
 											</Typography>
 											{" — I'll be in your neighborhood doing errands this…"}
-										</React.Fragment>
+										</>
 									}
 								/>
 							</ListItem>
@@ -183,8 +187,10 @@ function GlobalChat() {
 					<Toolbar />
 					<ListItem onClick={() => dispatch({ type: 'LOGOUT' })} disablePadding>
 						<ListItemButton>
-							<ListItemIcon>{<MessageIcon />}</ListItemIcon>
-							<ListItemText primary='Sign Out' />
+							<ListItemIcon>
+								<LogoutIcon />
+							</ListItemIcon>
+							<ListItemText primary='Log Out' />
 						</ListItemButton>
 					</ListItem>
 				</List>
@@ -196,15 +202,28 @@ function GlobalChat() {
 					{messages.map((message) => (
 						<div className='messageCard' key={message.id}>
 							{message.user_id === user.id ? (
-								<h3>
-									ME <span className='messageTime'>{message.time}</span>
-								</h3>
+								<>
+									<h3 className='messageName'>
+										<span className='underlineName'>{message.tarkov_name}</span>
+										<span className='messageTime'> {message.time}</span>
+									</h3>
+									<p className='messageDesc'>{message.description}</p>
+									<p>
+										<span className='editSpan'>Edit</span>
+										<span className='deleteSpan'>Delete</span>
+									</p>
+								</>
 							) : (
-								<h3 onClick={() => privateMessage(message.user_id)}>
-									{message.username} <span>{message.time}</span>
-								</h3>
+								<>
+									<h3 className='messageName'>
+										<span className='underlineName' onClick={() => privateMessage(message.user_id)}>
+											{message.tarkov_name}
+										</span>
+										<span className='messageTime'> {message.time}</span>
+									</h3>
+									<p className='messageDesc'>{message.description}</p>
+								</>
 							)}
-							<p>{message.description}</p>
 						</div>
 					))}
 					<div ref={messagesEndRef} />

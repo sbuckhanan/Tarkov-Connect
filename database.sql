@@ -32,3 +32,12 @@ CREATE TABLE "user_private_messages" (
     "sender_user_id" INT REFERENCES "user",
     "receiver_user_id" INT REFERENCES "user"
 );
+
+CREATE TABLE "feedback" (
+    "id" SERIAL PRIMARY KEY,
+    "rating" INT,
+    "comment" VARCHAR(300),
+    "time" VARCHAR(100),
+    "sender_user_id" INT REFERENCES "user",
+    "receiver_user_id" INT REFERENCES "user"
+);
