@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import socket from '../../socket/socket';
-import './GlobalChat.css';
 import SideBar from '../SideBar/SideBar';
 
 //? Testing
@@ -12,13 +11,12 @@ import List from '@mui/material/List';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Button from '@mui/material/Button';
 
-//? end of those testing
-
-function GlobalChat() {
+function PrivateChat() {
 	const [message, setMessage] = useState('');
-	const messages = useSelector((store) => store.messages);
 	const dispatch = useDispatch();
 	const user = useSelector((store) => store.user);
+	const receiverId = useSelector((store) => store.receiverId);
+	const messages = useSelector((store) => store.privateMessages);
 	const history = useHistory();
 
 	const messagesEndRef = useRef(null);
@@ -29,7 +27,7 @@ function GlobalChat() {
 
 	const sendMessage = () => {
 		//? Send to saga to post, saga will call the socket event to update everyone's DOM
-		dispatch({ type: 'POST_MESSAGE', payload: { message } });
+		dispatch({ type: 'POST_PRIVATE_MESSAGE', payload: { message, receiverId } });
 	};
 
 	const goToProfile = (id) => {
@@ -42,15 +40,13 @@ function GlobalChat() {
 	//? also includes our received info from the server so that page reloads
 	useEffect(() => {
 		//? this gets messages from the db on page load
-		dispatch({ type: 'GET_MESSAGES' });
-		scrollToBottom();
+		dispatch({ type: 'GET_PRIVATE_MESSAGES', payload: receiverId });
 		//? this is what server sends
-		socket.on('receive_message', (data) => {
+		socket.on('get_private_messages', (data) => {
 			//? Will need to a dispatch to get all messages??
-			dispatch({ type: 'GET_MESSAGES' });
+			dispatch({ type: 'GET_PRIVATE_MESSAGES', payload: receiverId });
 			scrollToBottom();
 		});
-		//? Can not add scroll to bottom as a dependency in the array. Causes infinite get request to saga
 	}, [socket, dispatch, messagesEndRef.current]);
 
 	return (
@@ -67,7 +63,7 @@ function GlobalChat() {
 										<span className='underlineName'>{message.tarkov_name}</span>
 										<span className='messageTime'> {message.time}</span>
 									</h3>
-									<p className='messageDesc'>{message.description}</p>
+									<p className='messageDesc'>{message.message}</p>
 									<p>
 										<span className='editSpan'>Edit</span>
 										<span className='deleteSpan'>Delete</span>
@@ -81,7 +77,7 @@ function GlobalChat() {
 										</span>
 										<span className='messageTime'> {message.time}</span>
 									</h3>
-									<p className='messageDesc'>{message.description}</p>
+									<p className='messageDesc'>{message.message}</p>
 								</>
 							)}
 						</div>
@@ -105,4 +101,4 @@ function GlobalChat() {
 	);
 }
 
-export default GlobalChat;
+export default PrivateChat;

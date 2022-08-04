@@ -6,6 +6,8 @@ function* getProfile(action) {
 		// clear any existing error on the login page
 		const feedback = yield axios.get(`/api/profile/feedback/${action.payload}`);
 		const info = yield axios.get(`/api/profile/info/${action.payload}`);
+		yield console.log('HERE IS THE FEEDBACK RESULTS', feedback.data);
+		yield console.log('HERE IS THE INFO RESULTS', info.data);
 		yield put({ type: 'SET_PROFILE', payload: { feedback: feedback.data, info: info.data } });
 	} catch (error) {
 		console.log('Error with get messages:', error);

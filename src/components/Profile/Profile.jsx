@@ -50,6 +50,7 @@ function Profile() {
 	const profile = useSelector((store) => store.profile);
 	const user = useSelector((store) => store.user);
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const [value, setValue] = useState(0);
 	const [rating, setRating] = useState('');
@@ -67,6 +68,11 @@ function Profile() {
 		});
 	};
 
+	const privateMessage = (id) => {
+		dispatch({ type: 'SET_RECEIVER_ID', payload: id });
+		history.push('/private');
+	};
+
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<SideBar />
@@ -79,7 +85,7 @@ function Profile() {
 							<PersonAddIcon />
 						</span>
 						<span>
-							<ChatIcon />
+							<ChatIcon onClick={() => privateMessage(profile.user_info?.id)} />
 						</span>
 					</header>
 					<ul>

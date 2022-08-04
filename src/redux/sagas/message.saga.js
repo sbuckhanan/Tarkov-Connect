@@ -14,10 +14,10 @@ function* getMessages() {
 	}
 }
 
-function* getPrivateMessages() {
+function* getPrivateMessages(action) {
 	try {
 		// clear any existing error on the login page
-		const privateMessages = yield axios.get('/api/messages/privateMessage');
+		const privateMessages = yield axios.get(`/api/messages/privateMessage/${action.payload}`);
 		yield put({ type: 'SET_PRIVATE_MESSAGES', payload: privateMessages.data });
 	} catch (error) {
 		console.log('Error with get messages:', error);

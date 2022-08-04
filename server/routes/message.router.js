@@ -41,11 +41,12 @@ router.post('/', (req, res) => {
 	}
 });
 
-router.get('/privateMessage', (req, res) => {
+router.get('/privateMessage/:id', (req, res) => {
 	if (req.isAuthenticated()) {
-		let queryText = `SELECT private_messages.id, private_messages.message, private_messages.time, private_messages.user_id, user_private_messages.sender_user_id, user_private_messages.receiver_user_id, "user".username  FROM private_messages JOIN user_private_messages ON private_messages.id = user_private_messages.message_id JOIN "user" ON "user".id = user_private_messages.sender_user_id;`;
+		const id = req.params.id;
+		let queryText = `SELECT private_messages.id, private_messages.message, private_messages.time, private_messages.user_id, user_private_messages.sender_user_id, user_private_messages.receiver_user_id, "user".tarkov_name  FROM private_messages JOIN user_private_messages ON private_messages.id = user_private_messages.message_id JOIN "user" ON "user".id = user_private_messages.sender_user_id WHERE user_private_messages.receiver_user_id = $1 AND user_private_messages.sender_user_id = $2 OR user_private_messages.sender_user_id = $1 AND user_private_messages.receiver_user_id = $2;`;
 		pool
-			.query(queryText)
+			.query(queryText, [id, req.user.id])
 			.then((result) => {
 				res.send(result.rows);
 			})

@@ -14,6 +14,7 @@ import Profile from '../Profile/Profile';
 
 import './App.css';
 import GlobalChat from '../GlobalChat/GlobalChat';
+import PrivateChat from '../PrivateChat/PrivateChat';
 
 function App() {
 	const dispatch = useDispatch();
@@ -70,6 +71,13 @@ function App() {
 						exact
 						path='/profile/:username'>
 						<Profile />
+					</ProtectedRoute>
+
+					<ProtectedRoute
+						// logged in shows InfoPage else shows LoginPage
+						exact
+						path='/private'>
+						<PrivateChat />
 					</ProtectedRoute>
 
 					<Route exact path='/login'>
