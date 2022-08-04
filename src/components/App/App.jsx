@@ -20,11 +20,15 @@ function App() {
 	const dispatch = useDispatch();
 
 	const user = useSelector((store) => store.user);
+	const socketId = useSelector((store) => store.currentSocketId);
 
 	useEffect(() => {
-		dispatch({ type: 'FETCH_USER' });
-		socket.auth = { user };
+		dispatch({ type: 'FETCH_USER', payload: socket.id });
 		socket.connect();
+		socket.on('connect', () => {
+			dispatch({ type: 'SET_CURRENT_SOCKET_ID', payload: socket.id });
+			console.log(socket.id); // an alphanumeric id...
+		});
 	}, [dispatch, socket]);
 
 	return (

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
 // worker Saga: will be fired on "FETCH_USER" actions
-function* fetchUser() {
+function* fetchUser(action) {
 	try {
 		const config = {
 			headers: { 'Content-Type': 'application/json' },
@@ -14,6 +14,8 @@ function* fetchUser() {
 		// If a user is logged in, this will return their information
 		// from the server session (req.user)
 		const response = yield axios.get('/api/user', config);
+		// console.log('HERE IS YOUR USER INFO', response);
+		yield axios.put(`/api/user/socket/${response.data.id}`, { socketId: action.payload });
 
 		// now that the session has given us a user object
 		// with an id and username set the client-side user object to let
@@ -24,8 +26,18 @@ function* fetchUser() {
 	}
 }
 
+function* setSocket(action) {
+	try {
+		yield console.log('SETTING SOCKET', action.payload);
+		yield axios.put(`/api/user/socket/${action.payload.id}`, { socketId: action.payload.socketId });
+	} catch (error) {
+		console.log('User get request failed', error);
+	}
+}
+
 function* userSaga() {
 	yield takeLatest('FETCH_USER', fetchUser);
+	yield takeLatest('SET_SOCKET', setSocket);
 }
 
 export default userSaga;

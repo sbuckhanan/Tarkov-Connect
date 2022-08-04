@@ -92,12 +92,16 @@ function Profile() {
 						<li>
 							{' '}
 							Rating:{' '}
-							{profile.user_info?.rating < 5 ? (
+							{profile.user_info?.rating < 5 && profile.user_info?.rating !== null ? (
 								<span className='red'>{profile.user_info?.rating}</span>
-							) : profile.user_info?.rating >= 5 && profile.user_info?.rating < 8 ? (
+							) : profile.user_info?.rating >= 5 &&
+							  profile.user_info?.rating < 8 &&
+							  profile.user_info?.rating !== null ? (
 								<span className='yellow'>{profile.user_info?.rating}</span>
-							) : profile.user_info?.rating >= 8 ? (
+							) : profile.user_info?.rating >= 8 && profile.user_info?.rating !== null ? (
 								<span className='green'>{profile.user_info?.rating}</span>
+							) : profile.user_info?.rating == null ? (
+								<span className='yellow'>5</span>
 							) : (
 								''
 							)}
@@ -108,7 +112,11 @@ function Profile() {
 				<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 					<Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
 						<Tab label='Feedback' {...a11yProps(0)} />
-						<Tab label='Add Feedback' {...a11yProps(1)} />
+						{user.id === profile.user_info?.id ? (
+							<Tab label='Edit Account' {...a11yProps(1)} />
+						) : (
+							<Tab label='Add Feedback' {...a11yProps(1)} />
+						)}
 					</Tabs>
 				</Box>
 				<TabPanel value={value} index={0}>
@@ -143,25 +151,29 @@ function Profile() {
 						<div ref={messagesEndRef} />
 					</List>
 				</TabPanel>
-				<TabPanel value={value} index={1}>
-					<label htmlFor='rating'>Rating</label>
-					<input
-						value={rating}
-						name='rating'
-						type='text'
-						placeholder='0'
-						onChange={(e) => setRating(e.target.value)}
-					/>
-					<label htmlFor='comment'>Comment</label>
-					<input
-						value={comment}
-						name='comment'
-						type='text'
-						placeholder='Comment...'
-						onChange={(e) => setComment(e.target.value)}
-					/>
-					<button onClick={addFeedback}>Submit</button>
-				</TabPanel>
+				{user.id === profile.user_info?.id ? (
+					<TabPanel>EDIT STUFF HERE</TabPanel>
+				) : (
+					<TabPanel value={value} index={1}>
+						<label htmlFor='rating'>Rating</label>
+						<input
+							value={rating}
+							name='rating'
+							type='text'
+							placeholder='0'
+							onChange={(e) => setRating(e.target.value)}
+						/>
+						<label htmlFor='comment'>Comment</label>
+						<input
+							value={comment}
+							name='comment'
+							type='text'
+							placeholder='Comment...'
+							onChange={(e) => setComment(e.target.value)}
+						/>
+						<button onClick={addFeedback}>Submit</button>
+					</TabPanel>
+				)}
 			</Box>
 		</Box>
 	);

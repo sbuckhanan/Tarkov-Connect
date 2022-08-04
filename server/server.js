@@ -16,8 +16,7 @@ const io = new Server(server, {
 //! This handles the connection event. All events inside works like query onReady.
 io.on('connection', (socket) => {
 	//? set socket.username to the username client sends after login
-	socket.username = socket.handshake.auth.user.username;
-	console.log(`User Connected: With id: ${socket.id} and username: ${socket.username}`);
+	console.log(`User Connected: With id: ${socket.id}`);
 	//? If client sends us send message do stuff. Data is the object we sent over.
 	socket.on('send_message', (data) => {
 		console.log('HERE IS YOUR MESSAGE', data);

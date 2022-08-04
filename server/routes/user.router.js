@@ -38,6 +38,21 @@ router.post('/login', userStrategy.authenticate('local'), (req, res) => {
 	res.sendStatus(200);
 });
 
+router.put('/socket/:id', (req, res) => {
+	console.log('SETTING SOCKET ID', req.body);
+	const id = req.params.id;
+	console.log('HERE IS YOUR ID', id);
+	const { socketId } = req.body;
+	const queryText = `UPDATE "user" SET "socketId" = $2 WHERE id = $1;`;
+	pool
+		.query(queryText, [id, socketId])
+		.then(() => res.sendStatus(201))
+		.catch((err) => {
+			console.log('UPDATE SOCKET FAILED', err);
+			res.sendStatus(500);
+		});
+});
+
 // clear all server session information about this user
 router.post('/logout', (req, res) => {
 	// Use passport's built-in method to log out the user

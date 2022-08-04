@@ -45,10 +45,11 @@ function GlobalChat() {
 		dispatch({ type: 'GET_MESSAGES' });
 		scrollToBottom();
 		//? this is what server sends
-		socket.on('receive_message', (data) => {
-			//? Will need to a dispatch to get all messages??
-			dispatch({ type: 'GET_MESSAGES' });
-			scrollToBottom();
+		socket.on('your_socket_id', (data) => {
+			console.log('HERE IS YOUR SOCKET ID', data);
+			// //? Will need to a dispatch to get all messages??
+			// dispatch({ type: 'GET_MESSAGES' });
+			// scrollToBottom();
 		});
 		//? Can not add scroll to bottom as a dependency in the array. Causes infinite get request to saga
 	}, [socket, dispatch, messagesEndRef.current]);
@@ -64,7 +65,9 @@ function GlobalChat() {
 							{message.user_id === user.id ? (
 								<>
 									<h3 className='messageName'>
-										<span className='underlineName'>{message.tarkov_name}</span>
+										<span className='underlineName' onClick={() => goToProfile(message)}>
+											{message.tarkov_name}
+										</span>
 										<span className='messageTime'> {message.time}</span>
 									</h3>
 									<p className='messageDesc'>{message.description}</p>

@@ -27,7 +27,7 @@ router.get('/info/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {
 		const queryText =
-			'SELECT "user".id, "user".tarkov_name, "user".tarkov_level, round(avg(rating), 2) AS rating FROM feedback JOIN "user" ON "user".id = feedback.receiver_user_id WHERE receiver_user_id = $1 GROUP BY "user".tarkov_name, "user".tarkov_level, "user".id;';
+			'SELECT "user".id, "user".tarkov_name, "user".tarkov_level, round(avg(rating), 2) AS rating FROM "user" LEFT JOIN "feedback" ON "user".id = feedback.receiver_user_id WHERE "user".id = $1 GROUP BY "user".tarkov_name, "user".tarkov_level, "user".id;';
 		pool
 			.query(queryText, [id])
 			.then((result) => {
