@@ -6,7 +6,7 @@ const moment = require('moment');
 // This route should return all of the messages
 router.get('/', (req, res) => {
 	if (req.isAuthenticated()) {
-		let queryText = `SELECT messages.id, messages.description, messages.time, messages.user_id, "user".tarkov_name FROM "messages" JOIN "user" ON "user".id = messages.user_id;`;
+		let queryText = `SELECT messages.id, messages.description, messages.time, messages.user_id, "user".tarkov_name, "user"."socketId" FROM "messages" JOIN "user" ON "user".id = messages.user_id;`;
 		pool
 			.query(queryText)
 			.then((result) => {
@@ -44,7 +44,7 @@ router.post('/', (req, res) => {
 router.get('/privateMessage/:id', (req, res) => {
 	if (req.isAuthenticated()) {
 		const id = req.params.id;
-		let queryText = `SELECT private_messages.id, private_messages.message, private_messages.time, private_messages.user_id, user_private_messages.sender_user_id, user_private_messages.receiver_user_id, "user".tarkov_name  FROM private_messages JOIN user_private_messages ON private_messages.id = user_private_messages.message_id JOIN "user" ON "user".id = user_private_messages.sender_user_id WHERE user_private_messages.receiver_user_id = $1 AND user_private_messages.sender_user_id = $2 OR user_private_messages.sender_user_id = $1 AND user_private_messages.receiver_user_id = $2;`;
+		let queryText = `SELECT private_messages.id, private_messages.message, private_messages.time, private_messages.user_id, user_private_messages.sender_user_id, user_private_messages.receiver_user_id, "user".tarkov_name, "user"."socketId" FROM private_messages JOIN user_private_messages ON private_messages.id = user_private_messages.message_id JOIN "user" ON "user".id = user_private_messages.sender_user_id WHERE user_private_messages.receiver_user_id = $1 AND user_private_messages.sender_user_id = $2 OR user_private_messages.sender_user_id = $1 AND user_private_messages.receiver_user_id = $2;`;
 		pool
 			.query(queryText, [id, req.user.id])
 			.then((result) => {

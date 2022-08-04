@@ -25,9 +25,10 @@ io.on('connection', (socket) => {
 		//? socket.broadcast.emit sends one to everyone but the sender.
 	});
 	socket.on('send_private_message', (data) => {
-		console.log('HERE IS YOUR MESSAGE', data);
+		// console.log('HERE IS YOUR MESSAGE', data);
 		//? io.emit sends something to everyone
 		io.emit('get_private_messages', data);
+		socket.to(data.socketId).emit('private message', data);
 		//? socket.broadcast.emit sends one to everyone but the sender.
 	});
 });

@@ -18,6 +18,7 @@ function PrivateChat() {
 	const receiverId = useSelector((store) => store.receiverId);
 	const messages = useSelector((store) => store.privateMessages);
 	const history = useHistory();
+	const profile = useSelector((store) => store.profile);
 
 	const messagesEndRef = useRef(null);
 
@@ -27,7 +28,10 @@ function PrivateChat() {
 
 	const sendMessage = () => {
 		//? Send to saga to post, saga will call the socket event to update everyone's DOM
-		dispatch({ type: 'POST_PRIVATE_MESSAGE', payload: { message, receiverId } });
+		dispatch({
+			type: 'POST_PRIVATE_MESSAGE',
+			payload: { message, receiverId, socketId: profile.user_info.socketId },
+		});
 	};
 
 	const goToProfile = (id) => {

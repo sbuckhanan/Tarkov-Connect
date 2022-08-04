@@ -23,11 +23,15 @@ function App() {
 	const socketId = useSelector((store) => store.currentSocketId);
 
 	useEffect(() => {
-		dispatch({ type: 'FETCH_USER', payload: socket.id });
+		socket.disconnect();
 		socket.connect();
 		socket.on('connect', () => {
+			dispatch({ type: 'FETCH_USER', payload: socket.id });
 			dispatch({ type: 'SET_CURRENT_SOCKET_ID', payload: socket.id });
 			console.log(socket.id); // an alphanumeric id...
+		});
+		socket.on('private message', (data) => {
+			alert('NEW MESSAGE BOIII');
 		});
 	}, [dispatch, socket]);
 
