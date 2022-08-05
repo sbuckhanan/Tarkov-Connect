@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Drawer from '@mui/material/Drawer';
@@ -27,8 +27,13 @@ function SideBar() {
 	const [messageOpen, setMessageOpen] = useState(false);
 	const [friendOpen, setFriendOpen] = useState(false);
 	const user = useSelector((store) => store.user);
+	const messages = useSelector((store) => store.allMessages);
 	const dispatch = useDispatch();
 	const history = useHistory();
+
+	useEffect(() => {
+		dispatch({ type: 'ALL_MESSAGES' });
+	}, [dispatch]);
 
 	return (
 		<>
@@ -102,38 +107,31 @@ function SideBar() {
 					</ListItemButton>
 					<Collapse in={messageOpen} timeout='auto' unmountOnExit>
 						<List component='div' style={{ maxHeight: 150, overflow: 'auto' }} disablePadding>
-							<ListItem alignItems='flex-start'>
-								<ListItemText
-									secondary={
-										<>
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'>
-												Ali Connors
-											</Typography>
-											{" — I'll be in your neighborhood doing errands this…"}
-										</>
-									}
-								/>
-							</ListItem>
-							<ListItem alignItems='flex-start'>
-								<ListItemText
-									secondary={
-										<>
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'>
-												Ali Connors
-											</Typography>
-											{" — I'll be in your neighborhood doing errands this…"}
-										</>
-									}
-								/>
-							</ListItem>
+							{messages.map((message) => {
+								return (
+									<div key={message.message_id}>
+										<ListItem alignItems='flex-start'>
+											<ListItemText
+												secondary={
+													<>
+														<Typography
+															sx={{ display: 'inline' }}
+															component='span'
+															variant='body2'
+															color='text.primary'>
+															{message.tarkov_name}{' '}
+														</Typography>
+														{message.time}
+														<br />
+														{message.message}
+													</>
+												}
+											/>
+										</ListItem>
+										<Divider />
+									</div>
+								);
+							})}
 						</List>
 					</Collapse>
 					<Toolbar />

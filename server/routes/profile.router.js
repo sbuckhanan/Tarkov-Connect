@@ -3,6 +3,24 @@ const router = express.Router();
 const pool = require('../modules/pool');
 const moment = require('moment');
 
+router.get('/personId/:username', (req, res) => {
+	const username = req.params.username;
+	if (req.isAuthenticated()) {
+		const queryText = 'SELECT "user".id FROM "user" WHERE "user".tarkov_name = $1;';
+		pool
+			.query(queryText, [username])
+			.then((result) => {
+				res.send(result.rows);
+			})
+			.catch((error) => {
+				console.log(error);
+				res.sendStatus(500);
+			});
+	} else {
+		res.sendStatus(403);
+	}
+});
+
 // This route should return all of the messages
 router.get('/feedback/:id', (req, res) => {
 	const id = req.params.id;
@@ -23,13 +41,13 @@ router.get('/feedback/:id', (req, res) => {
 	}
 });
 
-router.get('/info/:id', (req, res) => {
-	const id = req.params.id;
+router.get('/info/:username', (req, res) => {
+	const username = req.params.username;
 	if (req.isAuthenticated()) {
 		const queryText =
-			'SELECT "user".id, "user".tarkov_name, "user".tarkov_level, "user"."socketId", round(avg(rating), 2) AS rating FROM "user" LEFT JOIN "feedback" ON "user".id = feedback.receiver_user_id WHERE "user".id = $1 GROUP BY "user".tarkov_name, "user".tarkov_level, "user".id;';
+			'SELECT "user".id, "user".tarkov_name, "user".tarkov_level, "user"."socketId", round(avg(rating), 2) AS rating FROM "user" LEFT JOIN "feedback" ON "user".id = feedback.receiver_user_id WHERE "user".tarkov_name = $1 GROUP BY "user".tarkov_name, "user".tarkov_level, "user".id;';
 		pool
-			.query(queryText, [id])
+			.query(queryText, [username])
 			.then((result) => {
 				res.send(result.rows[0]);
 			})

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import socket from '../../socket/socket';
 import SideBar from '../SideBar/SideBar';
 
@@ -19,6 +19,7 @@ function PrivateChat() {
 	const messages = useSelector((store) => store.privateMessages);
 	const history = useHistory();
 	const profile = useSelector((store) => store.profile);
+	const { username } = useParams();
 
 	const messagesEndRef = useRef(null);
 
@@ -44,7 +45,8 @@ function PrivateChat() {
 	//? also includes our received info from the server so that page reloads
 	useEffect(() => {
 		//? this gets messages from the db on page load
-		dispatch({ type: 'GET_PRIVATE_MESSAGES', payload: receiverId });
+		dispatch({ type: 'GET_PROFILE', payload: username });
+		scrollToBottom();
 		//? this is what server sends
 		socket.on('get_private_messages', (data) => {
 			//? Will need to a dispatch to get all messages??

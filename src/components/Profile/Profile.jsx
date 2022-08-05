@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -56,6 +56,8 @@ function Profile() {
 	const [rating, setRating] = useState('');
 	const [comment, setComment] = useState('');
 
+	const { username } = useParams();
+
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
@@ -70,8 +72,14 @@ function Profile() {
 
 	const privateMessage = (id) => {
 		dispatch({ type: 'SET_RECEIVER_ID', payload: id });
-		history.push('/private');
+		history.push(`/private/${profile.user_info.tarkov_name}`);
 	};
+
+	useEffect(() => {
+		//? this gets messages from the db on page load
+		dispatch({ type: 'GET_PROFILE', payload: username });
+		//? this is what server sends
+	}, [dispatch]);
 
 	return (
 		<Box sx={{ display: 'flex' }}>

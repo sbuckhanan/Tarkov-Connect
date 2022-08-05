@@ -14,6 +14,16 @@ function* getMessages() {
 	}
 }
 
+function* myMessages() {
+	try {
+		// clear any existing error on the login page
+		const messages = yield axios.get('/api/messages/all');
+		yield put({ type: 'SET_ALL_MESSAGES', payload: messages.data });
+	} catch (error) {
+		console.log('Error with get messages:', error);
+	}
+}
+
 function* getPrivateMessages(action) {
 	try {
 		// clear any existing error on the login page
@@ -47,6 +57,7 @@ function* messageSaga() {
 	yield takeLatest('GET_PRIVATE_MESSAGES', getPrivateMessages);
 	yield takeLatest('POST_MESSAGE', postMessage);
 	yield takeLatest('POST_PRIVATE_MESSAGE', postPrivateMessage);
+	yield takeLatest('ALL_MESSAGES', myMessages);
 }
 
 export default messageSaga;

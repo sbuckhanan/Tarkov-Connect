@@ -4,6 +4,24 @@ const pool = require('../modules/pool');
 const moment = require('moment');
 
 // This route should return all of the messages
+router.get('/all', (req, res) => {
+	if (req.isAuthenticated()) {
+		let queryText = `SELECT DISTINCT ON ("user".tarkov_name) user_private_messages.message_id, private_messages.message, private_messages.time, private_messages.user_id, user_private_messages.sender_user_id, user_private_messages.receiver_user_id, "user".tarkov_name  FROM private_messages JOIN user_private_messages ON private_messages.id = user_private_messages.message_id JOIN "user" ON "user".id = user_private_messages.sender_user_id WHERE user_private_messages.receiver_user_id = $1 ORDER BY "user".tarkov_name, user_private_messages.message_id DESC;`;
+		pool
+			.query(queryText, [req.user.id])
+			.then((result) => {
+				res.send(result.rows);
+			})
+			.catch((error) => {
+				console.log(error);
+				res.sendStatus(500);
+			});
+	} else {
+		res.sendStatus(403);
+	}
+});
+
+// This route should return all of the messages
 router.get('/', (req, res) => {
 	if (req.isAuthenticated()) {
 		let queryText = `SELECT messages.id, messages.description, messages.time, messages.user_id, "user".tarkov_name, "user"."socketId" FROM "messages" JOIN "user" ON "user".id = messages.user_id;`;
