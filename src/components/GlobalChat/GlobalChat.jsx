@@ -17,6 +17,8 @@ import Button from '@mui/material/Button';
 
 function GlobalChat() {
 	const [message, setMessage] = useState('');
+	const [editMessage, setEditMessage] = useState('');
+	const [messageId, setMessageId] = useState(0);
 	const messages = useSelector((store) => store.messages);
 	const dispatch = useDispatch();
 	const user = useSelector((store) => store.user);
@@ -31,6 +33,7 @@ function GlobalChat() {
 	const sendMessage = () => {
 		//? Send to saga to post, saga will call the socket event to update everyone's DOM
 		dispatch({ type: 'POST_MESSAGE', payload: { message } });
+		setMessage('');
 	};
 
 	const goToProfile = (id) => {
@@ -57,6 +60,18 @@ function GlobalChat() {
 				Swal.fire('Canceled!', 'You message is still available', 'error');
 			}
 		});
+	};
+
+	const handleEdit = (id) => {
+		setMessageId(id.id);
+		setEditMessage(id.description);
+	};
+
+	const submitEdit = () => {
+		dispatch({ type: 'EDIT_MESSAGE', payload: { id: messageId, message: editMessage } });
+		setEditMessage('');
+		setMessageId(0);
+		setMessage('');
 	};
 
 	//? Will need this use effect to load messages on page load
@@ -92,7 +107,9 @@ function GlobalChat() {
 									</h3>
 									<p className='messageDesc'>{message.description}</p>
 									<p>
-										<span className='editSpan'>Edit</span>
+										<span className='editSpan' onClick={() => handleEdit(message)}>
+											Edit
+										</span>
 										<span className='deleteSpan' onClick={() => handleDelete(message.id)}>
 											Delete
 										</span>
@@ -114,16 +131,35 @@ function GlobalChat() {
 					<div ref={messagesEndRef} />
 				</List>
 				<center>
-					<OutlinedInput
-						placeholder='Message...'
-						sx={{ m: 1, width: 600 }}
-						id='Message'
-						label='Message'
-						onChange={(e) => setMessage(e.target.value)}
-					/>
-					<Button onClick={sendMessage} variant='contained'>
-						Send
-					</Button>
+					{editMessage !== '' ? (
+						<>
+							<OutlinedInput
+								value={editMessage}
+								placeholder='Message...'
+								sx={{ m: 1, width: 600 }}
+								id='Message'
+								label='Message'
+								onChange={(e) => setEditMessage(e.target.value)}
+							/>
+							<Button onClick={submitEdit} variant='contained'>
+								SUBMIT EDIT
+							</Button>
+						</>
+					) : (
+						<>
+							<OutlinedInput
+								value={message}
+								placeholder='Message...'
+								sx={{ m: 1, width: 600 }}
+								id='Message'
+								label='Message'
+								onChange={(e) => setMessage(e.target.value)}
+							/>
+							<Button onClick={sendMessage} variant='contained'>
+								Send
+							</Button>
+						</>
+					)}
 				</center>
 			</Box>
 		</Box>

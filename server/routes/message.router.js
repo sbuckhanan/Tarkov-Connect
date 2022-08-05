@@ -100,6 +100,25 @@ router.post('/privateMessage', async (req, res) => {
 	}
 });
 
+router.put('/:id', (req, res) => {
+	const id = req.params.id;
+	const { message } = req.body;
+	if (req.isAuthenticated()) {
+		let queryText = `UPDATE messages SET description = $2 WHERE id = $1;`;
+		pool
+			.query(queryText, [id, message])
+			.then((result) => {
+				res.sendStatus(201);
+			})
+			.catch((error) => {
+				console.log('ERROR DELETING', error);
+				res.sendStatus(500);
+			});
+	} else {
+		res.sendStatus(403);
+	}
+});
+
 router.delete('/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {

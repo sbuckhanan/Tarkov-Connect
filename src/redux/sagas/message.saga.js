@@ -24,6 +24,16 @@ function* deleteMessage(action) {
 	}
 }
 
+function* editMessage(action) {
+	try {
+		// clear any existing error on the login page
+		yield axios.put(`/api/messages/${action.payload.id}`, { message: action.payload.message });
+		yield yield socket.emit('send_message', action.payload);
+	} catch (error) {
+		console.log('Error with get messages:', error);
+	}
+}
+
 function* myMessages() {
 	try {
 		// clear any existing error on the login page
@@ -69,6 +79,7 @@ function* messageSaga() {
 	yield takeLatest('POST_PRIVATE_MESSAGE', postPrivateMessage);
 	yield takeLatest('ALL_MESSAGES', myMessages);
 	yield takeLatest('DELETE_MESSAGE', deleteMessage);
+	yield takeLatest('EDIT_MESSAGE', editMessage);
 }
 
 export default messageSaga;
