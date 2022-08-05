@@ -31,6 +31,11 @@ function SideBar() {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
+	const privateMessage = (id) => {
+		dispatch({ type: 'GET_PROFILE', payload: id.tarkov_name });
+		history.push(`/private/${id.tarkov_name}`);
+	};
+
 	useEffect(() => {
 		dispatch({ type: 'ALL_MESSAGES' });
 	}, [dispatch]);
@@ -115,6 +120,7 @@ function SideBar() {
 												secondary={
 													<>
 														<Typography
+															onClick={() => privateMessage(message)}
 															sx={{ display: 'inline' }}
 															component='span'
 															variant='body2'

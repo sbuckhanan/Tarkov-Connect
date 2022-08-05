@@ -10,3 +10,4 @@
 8. Edit settings view for my own profile
 9. Click my name on side bar to go to my profile
 10. Pop up for getting a new private message with sound?
+11. Display my friends in sidebar. Requests there too?

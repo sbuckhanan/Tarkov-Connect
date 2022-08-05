@@ -18,7 +18,6 @@ function* deleteMessage(action) {
 		// clear any existing error on the login page
 		yield axios.delete(`/api/messages/${action.payload}`);
 		yield yield socket.emit('send_message', action.payload);
-		// yield put({ type: 'GET_MESSAGES' });
 	} catch (error) {
 		console.log('Error with get messages:', error);
 	}
