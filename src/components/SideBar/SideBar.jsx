@@ -31,6 +31,11 @@ function SideBar() {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
+	const goToProfile = () => {
+		dispatch({ type: 'GET_PROFILE', payload: user.tarkov_name });
+		history.push(`/profile/${user.tarkov_name}`);
+	};
+
 	const privateMessage = (id) => {
 		dispatch({ type: 'GET_PROFILE', payload: id.tarkov_name });
 		history.push(`/private/${id.tarkov_name}`);
@@ -64,7 +69,7 @@ function SideBar() {
 				variant='permanent'
 				anchor='left'>
 				<Toolbar />
-				{user.tarkov_name}
+				<span onClick={goToProfile}>{user.tarkov_name}</span>
 				<Divider />
 				<List>
 					<ListItem onClick={() => history.push('/global')} disablePadding>

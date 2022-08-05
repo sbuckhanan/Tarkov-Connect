@@ -6,8 +6,6 @@
 4. Add as friend
 5. Friend requests
 6. Accept Friend
-7. Be able to click message in side bar and go to that message
-8. Edit settings view for my own profile
-9. Click my name on side bar to go to my profile
-10. Pop up for getting a new private message with sound?
-11. Display my friends in sidebar. Requests there too?
+7. Edit settings view for my own profile
+8. Pop up for getting a new private message with sound?
+9. Display my friends in sidebar. Requests there too?
