@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import socket from '../../socket/socket';
 import './GlobalChat.css';
 import SideBar from '../SideBar/SideBar';
+import Swal from 'sweetalert2';
 
 //? Testing
 import Box from '@mui/material/Box';
@@ -38,6 +39,26 @@ function GlobalChat() {
 		history.push(`/profile/${id.tarkov_name}`);
 	};
 
+	const handleDelete = (id) => {
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				dispatch({ type: 'DELETE_MESSAGE', payload: id });
+				Swal.fire('Deleted!', 'Your message has been deleted.', 'success');
+				history.push('/');
+			} else {
+				Swal.fire('Canceled!', 'You message is still available', 'error');
+			}
+		});
+	};
+
 	//? Will need this use effect to load messages on page load
 	//? also includes our received info from the server so that page reloads
 	useEffect(() => {
@@ -45,11 +66,10 @@ function GlobalChat() {
 		dispatch({ type: 'GET_MESSAGES' });
 		scrollToBottom();
 		//? this is what server sends
-		socket.on('your_socket_id', (data) => {
-			console.log('HERE IS YOUR SOCKET ID', data);
+		socket.on('receive_message', (data) => {
 			// //? Will need to a dispatch to get all messages??
-			// dispatch({ type: 'GET_MESSAGES' });
-			// scrollToBottom();
+			dispatch({ type: 'GET_MESSAGES' });
+			scrollToBottom();
 		});
 		//? Can not add scroll to bottom as a dependency in the array. Causes infinite get request to saga
 	}, [socket, dispatch, messagesEndRef.current]);
@@ -73,7 +93,9 @@ function GlobalChat() {
 									<p className='messageDesc'>{message.description}</p>
 									<p>
 										<span className='editSpan'>Edit</span>
-										<span className='deleteSpan'>Delete</span>
+										<span className='deleteSpan' onClick={() => handleDelete(message.id)}>
+											Delete
+										</span>
 									</p>
 								</>
 							) : (
