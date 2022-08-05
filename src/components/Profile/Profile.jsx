@@ -55,6 +55,8 @@ function Profile() {
 	const [value, setValue] = useState(0);
 	const [rating, setRating] = useState('');
 	const [comment, setComment] = useState('');
+	const [editName, setEditName] = useState('');
+	const [editLevel, setEditLevel] = useState('');
 
 	const { username } = useParams();
 
@@ -73,6 +75,17 @@ function Profile() {
 	const privateMessage = (id) => {
 		dispatch({ type: 'SET_RECEIVER_ID', payload: id });
 		history.push(`/private/${profile.user_info.tarkov_name}`);
+	};
+
+	const handleEdit = () => {
+		setEditName(profile.user_info.tarkov_name);
+		setEditLevel(profile.user_info.tarkov_level);
+	};
+
+	const submitEdit = () => {
+		dispatch({ type: 'UPDATE_USER', payload: { name: editName, level: editLevel } });
+		setEditName('');
+		setEditLevel('');
 	};
 
 	useEffect(() => {
@@ -121,7 +134,7 @@ function Profile() {
 					<Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
 						<Tab label='Feedback' {...a11yProps(0)} />
 						{user.id === profile.user_info?.id ? (
-							<Tab label='Edit Account' {...a11yProps(1)} />
+							<Tab label='Edit Account' {...a11yProps(1)} onClick={handleEdit} />
 						) : (
 							<Tab label='Add Feedback' {...a11yProps(1)} />
 						)}
@@ -160,7 +173,26 @@ function Profile() {
 					</List>
 				</TabPanel>
 				{user.id === profile.user_info?.id ? (
-					<TabPanel>EDIT STUFF HERE</TabPanel>
+					<TabPanel value={value} index={1}>
+						<h3>EDITING ACCOUNT</h3>
+						<label htmlFor='tarkovName'>Tarkov Name</label>
+						<input
+							value={editName}
+							name='tarkovName'
+							type='text'
+							placeholder='0'
+							onChange={(e) => setEditName(e.target.value)}
+						/>
+						<label htmlFor='tarkovLevel'>Tarkov Level</label>
+						<input
+							value={editLevel}
+							name='tarkovLevel'
+							type='text'
+							placeholder='Comment...'
+							onChange={(e) => setEditLevel(e.target.value)}
+						/>
+						<button onClick={submitEdit}>Submit Edit</button>
+					</TabPanel>
 				) : (
 					<TabPanel value={value} index={1}>
 						<label htmlFor='rating'>Rating</label>

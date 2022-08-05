@@ -38,6 +38,19 @@ router.post('/login', userStrategy.authenticate('local'), (req, res) => {
 	res.sendStatus(200);
 });
 
+router.put('/', (req, res) => {
+	const id = req.user.id;
+	const { name, level } = req.body;
+	const queryText = `UPDATE "user" SET "tarkov_name" = $2, "tarkov_level" = $3 WHERE id = $1;`;
+	pool
+		.query(queryText, [id, name, level])
+		.then(() => res.sendStatus(201))
+		.catch((err) => {
+			console.log('UPDATE SOCKET FAILED', err);
+			res.sendStatus(500);
+		});
+});
+
 router.put('/socket/:id', (req, res) => {
 	console.log('SETTING SOCKET ID', req.body);
 	const id = req.params.id;

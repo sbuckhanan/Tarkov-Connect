@@ -35,9 +35,19 @@ function* setSocket(action) {
 	}
 }
 
+function* updateUser(action) {
+	try {
+		yield axios.put('/api/user/', action.payload);
+		yield put({ type: 'GET_PROFILE', payload: action.payload.name });
+	} catch (error) {
+		console.log('Error in update user', error);
+	}
+}
+
 function* userSaga() {
 	yield takeLatest('FETCH_USER', fetchUser);
 	yield takeLatest('SET_SOCKET', setSocket);
+	yield takeLatest('UPDATE_USER', updateUser);
 }
 
 export default userSaga;
