@@ -41,3 +41,12 @@ CREATE TABLE "feedback" (
     "sender_user_id" INT REFERENCES "user",
     "receiver_user_id" INT REFERENCES "user"
 );
+
+CREATE TABLE "notifications" (
+    "id" SERIAL PRIMARY KEY,
+    "from" VARCHAR(100),
+    "message" VARCHAR(300),
+    "time" VARCHAR(100),
+    "receiver_user_id" INT REFERENCES "user",
+    "isRead" BOOLEAN DEFAULT false
+);

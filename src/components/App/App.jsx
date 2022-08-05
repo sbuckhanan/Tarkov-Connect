@@ -49,11 +49,6 @@ function App() {
 						path='/about'>
 						<AboutPage />
 					</Route>
-
-					{/* For protected routes, the view could show one of several things on the same route.
-            Visiting localhost:3000/user will show the UserPage if the user is logged in.
-            If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
-            Even though it seems like they are different pages, the user is always on localhost:3000/user */}
 					<ProtectedRoute
 						// logged in shows UserPage else shows LoginPage
 						exact
