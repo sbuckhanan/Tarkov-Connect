@@ -1,6 +1,12 @@
 ## NOTES
 
-1. Need to figure out how to get profile of current person on page reload.
-2. Need to figure out how to get private messages of current person on page reload
-3. Possibly Figure out scroll after new message
-4. Figure out issue when getting profile info if there is currently no feedback on that person (i.e brand new account)
+1. Possibly Figure out scroll after new message
+2. Edit and delete for feedback.
+3. Edit and delete for private messages.
+4. Add as friend
+5. Friend requests
+6. Accept Friend
+7. Be able to click message in side bar and go to that message
+8. Edit settings view for my own profile
+9. Click my name on side bar to go to my profile
+10. Pop up for getting a new private message with sound?

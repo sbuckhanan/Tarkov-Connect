@@ -66,7 +66,9 @@ function PrivateChat() {
 							{message.user_id === user.id ? (
 								<>
 									<h3 className='messageName'>
-										<span className='underlineName'>{message.tarkov_name}</span>
+										<span className='underlineName' onClick={() => goToProfile(message)}>
+											{message.tarkov_name}
+										</span>
 										<span className='messageTime'> {message.time}</span>
 									</h3>
 									<p className='messageDesc'>{message.message}</p>
