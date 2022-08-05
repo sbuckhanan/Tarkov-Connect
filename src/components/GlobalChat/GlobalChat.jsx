@@ -56,8 +56,6 @@ function GlobalChat() {
 				dispatch({ type: 'DELETE_MESSAGE', payload: id });
 				Swal.fire('Deleted!', 'Your message has been deleted.', 'success');
 				history.push('/');
-			} else {
-				Swal.fire('Canceled!', 'You message is still available', 'error');
 			}
 		});
 	};

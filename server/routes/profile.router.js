@@ -73,7 +73,7 @@ router.post('/feedback', (req, res) => {
 				res.sendStatus(200);
 			})
 			.catch((error) => {
-				console.log('Error Posting new pet', error);
+				console.log('Error Posting new feedback', error);
 				res.sendStatus(500);
 			});
 	} else {
@@ -91,7 +91,25 @@ router.put('/feedback', (req, res) => {
 				res.sendStatus(200);
 			})
 			.catch((error) => {
-				console.log('Error Posting new pet', error);
+				console.log('Error updating feedback', error);
+				res.sendStatus(500);
+			});
+	} else {
+		res.sendStatus(403);
+	}
+});
+
+router.delete('/feedback/:id', (req, res) => {
+	const id = req.params.id;
+	if (req.isAuthenticated()) {
+		const queryText = `DELETE FROM feedback WHERE id = $1;`;
+		pool
+			.query(queryText, [id])
+			.then((result) => {
+				res.sendStatus(200);
+			})
+			.catch((error) => {
+				console.log('Error deleting feedback', error);
 				res.sendStatus(500);
 			});
 	} else {

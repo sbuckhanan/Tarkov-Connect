@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import './Profile.css';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ChatIcon from '@mui/icons-material/Chat';
+import Swal from 'sweetalert2';
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -70,7 +71,7 @@ function Profile() {
 		console.log('ADDING FEEDBACK');
 		dispatch({
 			type: 'ADD_FEEDBACK',
-			payload: { rating, comment, receiver: profile.user_info.id },
+			payload: { rating, comment, receiver: profile.user_info.tarkov_name },
 		});
 	};
 
@@ -111,6 +112,27 @@ function Profile() {
 		setFeedbackId(0);
 		setValue(0);
 		//? Maybe figure out how to go back to the other tab?
+	};
+
+	const deleteFeedback = (feedback) => {
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				dispatch({
+					type: 'DELETE_FEEDBACK',
+					payload: { id: feedback.id, currentProfile: profile.user_info.tarkov_name },
+				});
+				Swal.fire('Deleted!', 'Your feedback has been deleted.', 'success');
+				history.push('/');
+			}
+		});
 	};
 
 	useEffect(() => {
@@ -181,7 +203,9 @@ function Profile() {
 												<span className='editSpan' onClick={() => startEditingFeedback(item)}>
 													Edit
 												</span>
-												<span className='deleteSpan'>Delete</span>
+												<span className='deleteSpan' onClick={() => deleteFeedback(item)}>
+													Delete
+												</span>
 											</p>
 										</>
 									) : (

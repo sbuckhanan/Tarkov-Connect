@@ -41,10 +41,21 @@ function* editFeedback(action) {
 	}
 }
 
+function* deleteFeedback(action) {
+	try {
+		// clear any existing error on the login page
+		yield axios.delete(`/api/profile/feedback/${action.payload.id}`);
+		yield put({ type: 'GET_PROFILE', payload: action.payload.currentProfile });
+	} catch (error) {
+		console.log('Error with get messages:', error);
+	}
+}
+
 function* profileSaga() {
 	yield takeLatest('GET_PROFILE', getProfile);
 	yield takeLatest('ADD_FEEDBACK', addFeedback);
 	yield takeLatest('EDIT_FEEDBACK', editFeedback);
+	yield takeLatest('DELETE_FEEDBACK', deleteFeedback);
 }
 
 export default profileSaga;
