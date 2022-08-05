@@ -26,7 +26,7 @@ router.get('/feedback/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {
 		const queryText =
-			'SELECT feedback.id, feedback.comment, feedback.time, "user".tarkov_name FROM "user" JOIN "feedback" ON feedback.sender_user_id = "user".id WHERE feedback.receiver_user_id = $1 GROUP BY feedback.id, "user".tarkov_name;';
+			'SELECT feedback.id, feedback.comment, feedback.rating, feedback.time, feedback.sender_user_id, "user".tarkov_name FROM "user" JOIN "feedback" ON feedback.sender_user_id = "user".id WHERE feedback.receiver_user_id = $1 GROUP BY feedback.id, "user".tarkov_name;';
 		pool
 			.query(queryText, [id])
 			.then((result) => {
@@ -66,9 +66,27 @@ router.post('/feedback', (req, res) => {
 	const { rating, comment, receiver } = req.body;
 	console.log('THIS IS THE USER', req.user);
 	if (req.isAuthenticated()) {
-		let queryText = `INSERT INTO feedback (rating, comment, time, sender_user_id, receiver_user_id) VALUES ($1, $2, $3, $4, $5);`;
+		const queryText = `INSERT INTO feedback (rating, comment, time, sender_user_id, receiver_user_id) VALUES ($1, $2, $3, $4, $5);`;
 		pool
 			.query(queryText, [rating, comment, timePosted, req.user.id, receiver])
+			.then((result) => {
+				res.sendStatus(200);
+			})
+			.catch((error) => {
+				console.log('Error Posting new pet', error);
+				res.sendStatus(500);
+			});
+	} else {
+		res.sendStatus(403);
+	}
+});
+
+router.put('/feedback', (req, res) => {
+	const { rating, comment, feedbackId } = req.body;
+	if (req.isAuthenticated()) {
+		const queryText = `UPDATE feedback SET rating = $1, comment = $2 WHERE id = $3;`;
+		pool
+			.query(queryText, [rating, comment, feedbackId])
 			.then((result) => {
 				res.sendStatus(200);
 			})

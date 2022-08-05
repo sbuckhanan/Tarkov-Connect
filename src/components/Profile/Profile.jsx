@@ -57,6 +57,8 @@ function Profile() {
 	const [comment, setComment] = useState('');
 	const [editName, setEditName] = useState('');
 	const [editLevel, setEditLevel] = useState('');
+	const [editingFeedback, setEditingFeedback] = useState(false);
+	const [feedbackId, setFeedbackId] = useState(0);
 
 	const { username } = useParams();
 
@@ -86,6 +88,29 @@ function Profile() {
 		dispatch({ type: 'UPDATE_USER', payload: { name: editName, level: editLevel } });
 		setEditName('');
 		setEditLevel('');
+		setValue(0);
+	};
+
+	const startEditingFeedback = (feedback) => {
+		setEditingFeedback(!editingFeedback);
+		setRating(feedback.rating);
+		setComment(feedback.comment);
+		setFeedbackId(feedback.id);
+		setValue(1);
+		//? Maybe figure out how to go to the other tab?
+	};
+
+	const submitEditedFeedback = () => {
+		dispatch({
+			type: 'EDIT_FEEDBACK',
+			payload: { rating, comment, feedbackId, currentProfile: profile.user_info.tarkov_name },
+		});
+		setEditingFeedback(!editingFeedback);
+		setRating(0);
+		setComment('');
+		setFeedbackId(0);
+		setValue(0);
+		//? Maybe figure out how to go back to the other tab?
 	};
 
 	useEffect(() => {
@@ -153,7 +178,9 @@ function Profile() {
 											</h3>
 											<p className='messageDesc'>{item?.comment}</p>
 											<p>
-												<span className='editSpan'>Edit</span>
+												<span className='editSpan' onClick={() => startEditingFeedback(item)}>
+													Edit
+												</span>
 												<span className='deleteSpan'>Delete</span>
 											</p>
 										</>
@@ -187,7 +214,7 @@ function Profile() {
 						<input
 							value={editLevel}
 							name='tarkovLevel'
-							type='text'
+							type='number'
 							placeholder='Comment...'
 							onChange={(e) => setEditLevel(e.target.value)}
 						/>
@@ -199,7 +226,7 @@ function Profile() {
 						<input
 							value={rating}
 							name='rating'
-							type='text'
+							type='number'
 							placeholder='0'
 							onChange={(e) => setRating(e.target.value)}
 						/>
@@ -211,7 +238,11 @@ function Profile() {
 							placeholder='Comment...'
 							onChange={(e) => setComment(e.target.value)}
 						/>
-						<button onClick={addFeedback}>Submit</button>
+						{editingFeedback ? (
+							<button onClick={submitEditedFeedback}>Submit Edit</button>
+						) : (
+							<button onClick={addFeedback}>Submit</button>
+						)}
 					</TabPanel>
 				)}
 			</Box>

@@ -27,9 +27,24 @@ function* addFeedback(action) {
 	}
 }
 
+function* editFeedback(action) {
+	try {
+		// clear any existing error on the login page
+		yield axios.put(`/api/profile/feedback`, {
+			rating: action.payload.rating,
+			comment: action.payload.comment,
+			feedbackId: action.payload.feedbackId,
+		});
+		yield put({ type: 'GET_PROFILE', payload: action.payload.currentProfile });
+	} catch (error) {
+		console.log('Error with get messages:', error);
+	}
+}
+
 function* profileSaga() {
 	yield takeLatest('GET_PROFILE', getProfile);
 	yield takeLatest('ADD_FEEDBACK', addFeedback);
+	yield takeLatest('EDIT_FEEDBACK', editFeedback);
 }
 
 export default profileSaga;
