@@ -41,9 +41,14 @@ function SideBar() {
 		history.push(`/profile/${user.tarkov_name}`);
 	};
 
-	const privateMessage = (id) => {
-		dispatch({ type: 'GET_PROFILE', payload: id.tarkov_name });
-		history.push(`/private/${id.tarkov_name}`);
+	const goToMessage = (message) => {
+		dispatch({ type: 'GET_PROFILE', payload: message.from });
+		history.push(`/private/${message.from}`);
+	};
+
+	const privateMessage = (player) => {
+		dispatch({ type: 'GET_PROFILE', payload: player.tarkov_name });
+		history.push(`/private/${player.tarkov_name}`);
 	};
 
 	const markAsRead = (notificationId) => {
@@ -95,6 +100,7 @@ function SideBar() {
 									<div key={notification.id}>
 										<ListItem alignItems='flex-start'>
 											<ListItemText
+												onClick={() => goToMessage(notification)}
 												secondary={
 													<>
 														<Typography

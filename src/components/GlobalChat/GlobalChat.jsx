@@ -37,7 +37,6 @@ function GlobalChat() {
 	};
 
 	const goToProfile = (id) => {
-		console.log('HERE IS THE ID', id);
 		dispatch({ type: 'GET_PROFILE', payload: id.tarkov_name });
 		history.push(`/profile/${id.tarkov_name}`);
 	};

@@ -35,7 +35,7 @@ function PrivateChat() {
 				message,
 				receiverId,
 				socketId: profile.user_info.socketId,
-				name: profile.user_info.tarkov_name,
+				name: user.tarkov_name,
 			},
 		});
 		setMessage('');
@@ -50,16 +50,19 @@ function PrivateChat() {
 	//? Will need this use effect to load messages on page load
 	//? also includes our received info from the server so that page reloads
 	useEffect(() => {
-		//? this gets messages from the db on page load
-		dispatch({ type: 'GET_PROFILE', payload: username });
-		scrollToBottom();
 		//? this is what server sends
 		socket.on('get_private_messages', (data) => {
 			//? Will need to a dispatch to get all messages??
 			dispatch({ type: 'GET_PRIVATE_MESSAGES', payload: receiverId });
-			scrollToBottom();
 		});
-	}, [socket, dispatch, messagesEndRef.current]);
+		scrollToBottom();
+	}, [socket, dispatch, messages]);
+
+	useEffect(() => {
+		// 👇️ scroll to bottom every time messages change
+		//? this gets messages from the db on page load
+		dispatch({ type: 'GET_PROFILE', payload: username });
+	}, []);
 
 	return (
 		<Box sx={{ display: 'flex' }}>
