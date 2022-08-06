@@ -73,9 +73,6 @@ function GlobalChat() {
 	//? Will need this use effect to load messages on page load
 	//? also includes our received info from the server so that page reloads
 	useEffect(() => {
-		//? this gets messages from the db on page load
-		dispatch({ type: 'GET_MESSAGES' });
-		dispatch({ type: 'GET_NOTIFICATIONS' });
 		scrollToBottom();
 		//? this is what server sends
 		socket.on('receive_message', (data) => {
@@ -84,7 +81,13 @@ function GlobalChat() {
 			scrollToBottom();
 		});
 		//? Can not add scroll to bottom as a dependency in the array. Causes infinite get request to saga
-	}, [socket, dispatch, messagesEndRef.current]);
+	}, [socket, dispatch, messages]);
+
+	useEffect(() => {
+		//? this gets messages from the db on page load
+		dispatch({ type: 'GET_MESSAGES' });
+		dispatch({ type: 'GET_NOTIFICATIONS' });
+	}, []);
 
 	return (
 		<Box sx={{ display: 'flex' }}>
