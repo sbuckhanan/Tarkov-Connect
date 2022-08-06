@@ -31,8 +31,14 @@ function PrivateChat() {
 		//? Send to saga to post, saga will call the socket event to update everyone's DOM
 		dispatch({
 			type: 'POST_PRIVATE_MESSAGE',
-			payload: { message, receiverId, socketId: profile.user_info.socketId },
+			payload: {
+				message,
+				receiverId,
+				socketId: profile.user_info.socketId,
+				name: profile.user_info.tarkov_name,
+			},
 		});
+		setMessage('');
 	};
 
 	const goToProfile = (id) => {
@@ -94,6 +100,7 @@ function PrivateChat() {
 				</List>
 				<center>
 					<OutlinedInput
+						value={message}
 						placeholder='Message...'
 						sx={{ m: 1, width: 600 }}
 						id='Message'

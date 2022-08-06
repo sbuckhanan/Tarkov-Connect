@@ -177,13 +177,33 @@ router.delete('/:id', (req, res) => {
 	}
 });
 
-// This route will get all of the unread notifications
+// This route will set unread notification to read
 router.put('/notifications/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {
 		const queryText = `UPDATE notifications SET "isRead" = 0 WHERE id = $1;`;
 		pool
 			.query(queryText, [id])
+			.then((result) => {
+				res.send(result.rows);
+			})
+			.catch((error) => {
+				console.log(error);
+				res.sendStatus(500);
+			});
+	} else {
+		res.sendStatus(403);
+	}
+});
+
+// This route will set unread notification to read
+router.post('/notifications', (req, res) => {
+	const { name, receiverId, message } = req.body;
+	const timePosted = moment().format('LLL');
+	if (req.isAuthenticated()) {
+		const queryText = `INSERT INTO notifications ("from", message, "time", receiver_user_id) VALUES ($1, $2, $3, $4);`;
+		pool
+			.query(queryText, [name, message, timePosted, receiverId])
 			.then((result) => {
 				res.send(result.rows);
 			})
