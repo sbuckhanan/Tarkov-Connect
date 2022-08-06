@@ -130,7 +130,6 @@ function Profile() {
 					payload: { id: feedback.id, currentProfile: profile.user_info.tarkov_name },
 				});
 				Swal.fire('Deleted!', 'Your feedback has been deleted.', 'success');
-				history.push('/');
 			}
 		});
 	};

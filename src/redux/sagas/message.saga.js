@@ -65,6 +65,7 @@ function* postMessage(action) {
 function* postPrivateMessage(action) {
 	try {
 		yield axios.post('/api/messages/privateMessage', action.payload);
+		//! POST NEW NOTIFICATION HERE TOO!!!!
 		yield socket.emit('send_private_message', action.payload);
 	} catch (error) {
 		console.log('Error with get messages:', error);

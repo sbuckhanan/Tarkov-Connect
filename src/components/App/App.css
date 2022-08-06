@@ -120,3 +120,17 @@ input {
 	grid-area: main;
 	overflow-y: auto;
 }
+
+.notifications {
+	margin-right: 5px;
+}
+
+.topBar {
+	height: 50px;
+}
+
+.markAsRead {
+	text-decoration: underline;
+	color: blue;
+	cursor: pointer;
+}

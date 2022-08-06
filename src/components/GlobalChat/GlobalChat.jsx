@@ -55,7 +55,6 @@ function GlobalChat() {
 			if (result.isConfirmed) {
 				dispatch({ type: 'DELETE_MESSAGE', payload: id });
 				Swal.fire('Deleted!', 'Your message has been deleted.', 'success');
-				history.push('/');
 			}
 		});
 	};
@@ -77,6 +76,7 @@ function GlobalChat() {
 	useEffect(() => {
 		//? this gets messages from the db on page load
 		dispatch({ type: 'GET_MESSAGES' });
+		dispatch({ type: 'GET_NOTIFICATIONS' });
 		scrollToBottom();
 		//? this is what server sends
 		socket.on('receive_message', (data) => {
