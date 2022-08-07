@@ -163,6 +163,18 @@ function Profile() {
 		});
 	};
 
+	const requestAsFriend = () => {
+		dispatch({
+			type: 'REQUEST_FRIEND',
+			payload: {
+				name: user.tarkov_name,
+				message: 'I would like to be friends',
+				receiverId: profile.user_info.id,
+				socketId: profile.user_info.socketId,
+			},
+		});
+	};
+
 	useEffect(() => {
 		//? this gets messages from the db on page load
 		dispatch({ type: 'GET_PROFILE', payload: username });
@@ -177,12 +189,16 @@ function Profile() {
 				<div className='profileContainer'>
 					<header>
 						{profile.user_info?.tarkov_name}
-						<span>
-							<PersonAddIcon />
-						</span>
-						<span>
-							<ChatIcon onClick={() => privateMessage(profile.user_info?.id)} />
-						</span>
+						{profile.user_info?.id !== user.id ? (
+							<>
+								<span>
+									<PersonAddIcon onClick={requestAsFriend} />
+								</span>
+								<span>
+									<ChatIcon onClick={() => privateMessage(profile.user_info?.id)} />
+								</span>
+							</>
+						) : null}
 					</header>
 					<ul>
 						<li>

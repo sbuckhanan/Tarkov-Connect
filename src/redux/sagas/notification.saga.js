@@ -1,6 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
-import socket from '../../socket/socket';
 
 function* getNotifications() {
 	try {

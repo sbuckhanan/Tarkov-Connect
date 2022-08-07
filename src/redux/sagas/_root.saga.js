@@ -5,6 +5,7 @@ import userSaga from './user.saga';
 import messageSaga from './message.saga';
 import profileSaga from './profile.saga';
 import getNotificationsSaga from './notification.saga';
+import requestFriendSaga from './friend.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -21,5 +22,6 @@ export default function* rootSaga() {
 		messageSaga(),
 		profileSaga(),
 		getNotificationsSaga(),
+		requestFriendSaga(),
 	]);
 }
