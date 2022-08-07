@@ -2,25 +2,27 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import {
+	Drawer,
+	CssBaseline,
+	AppBar,
+	Typography,
+	Divider,
+	ListItem,
+	ListItemButton,
+	ListItemIcon,
+	ListItemText,
+	Collapse,
+	Toolbar,
+	List,
+	Badge,
+} from '@mui/material';
 import MessageIcon from '@mui/icons-material/Message';
-import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import LogoutIcon from '@mui/icons-material/Logout';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import useStyles from '../../hooks/useStyle';
 

@@ -8,8 +8,11 @@ import SideBar from '../SideBar/SideBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import SendIcon from '@mui/icons-material/Send';
+import Chip from '@mui/material/Chip';
 
 function PrivateChat() {
 	const [message, setMessage] = useState('');
@@ -106,17 +109,18 @@ function PrivateChat() {
 						<div ref={messagesEndRef} />
 					</List>
 					<center>
-						<OutlinedInput
-							value={message}
-							placeholder='Message...'
-							sx={{ m: 1, width: 600 }}
-							id='Message'
-							label='Message'
-							onChange={(e) => setMessage(e.target.value)}
-						/>
-						<Button onClick={sendMessage} variant='contained'>
-							Send
-						</Button>
+						<Paper
+							component='form'
+							sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 600 }}>
+							<InputBase
+								onChange={(e) => setMessage(e.target.value)}
+								value={message}
+								sx={{ ml: 1, flex: 1 }}
+								placeholder='Message....'
+							/>
+							<Divider sx={{ height: 28, m: 0.5 }} orientation='vertical' />
+							<Chip onClick={sendMessage} icon={<SendIcon />} label='Send' />
+						</Paper>
 					</center>
 				</center>
 			</Box>

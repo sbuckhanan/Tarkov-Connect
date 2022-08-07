@@ -2,23 +2,29 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
+//? MUI COMPONENTS
+import {
+	Box,
+	Toolbar,
+	List,
+	Tabs,
+	Tab,
+	Typography,
+	Paper,
+	InputBase,
+	Divider,
+	IconButton,
+	Chip,
+} from '@mui/material';
+//? Sweet alerts
+import Swal from 'sweetalert2';
+//? ICONS
 import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ChatIcon from '@mui/icons-material/Chat';
-import Swal from 'sweetalert2';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
 import SendIcon from '@mui/icons-material/Send';
-import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Chip from '@mui/material/Chip';
+
 import './Profile.css';
 
 const min = 0;
