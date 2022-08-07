@@ -23,6 +23,7 @@ function App() {
 	const socketId = useSelector((store) => store.currentSocketId);
 
 	useEffect(() => {
+		dispatch({ type: 'GET_NOTIFICATIONS' });
 		socket.disconnect();
 		socket.connect();
 		socket.on('connect', () => {
@@ -70,6 +71,7 @@ function App() {
 						path='/global'>
 						<GlobalChat />
 					</ProtectedRoute>
+
 					<ProtectedRoute
 						// logged in shows InfoPage else shows LoginPage
 						exact

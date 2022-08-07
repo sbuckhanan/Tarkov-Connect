@@ -71,7 +71,7 @@ function PrivateChat() {
 				<Toolbar />
 				<center>
 					<div className='globalChat'>
-						<header>Private Chat with @{profile.user_info.tarkov_name}</header>
+						<header>Private Chat with @{profile.user_info?.tarkov_name}</header>
 					</div>
 					<List id='messageScroll' style={{ maxHeight: 500, overflow: 'auto' }}>
 						{messages.map((message) => (

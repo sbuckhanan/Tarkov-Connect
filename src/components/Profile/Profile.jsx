@@ -9,12 +9,9 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import './Profile.css';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ChatIcon from '@mui/icons-material/Chat';
 import Swal from 'sweetalert2';
-import { makeStyles } from '@mui/styles';
-
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
@@ -22,22 +19,10 @@ import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Chip from '@mui/material/Chip';
+import './Profile.css';
 
 const min = 0;
 const max = 10;
-
-const useStyles = makeStyles(() => ({
-	textField: {
-		width: '250px',
-		marginRight: '10px',
-	},
-	input: {
-		background: 'white',
-	},
-	tab: {
-		color: 'white',
-	},
-}));
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -77,7 +62,6 @@ function Profile() {
 	const user = useSelector((store) => store.user);
 	const dispatch = useDispatch();
 	const history = useHistory();
-
 	const [value, setValue] = useState(0);
 	const [rating, setRating] = useState('');
 	const [comment, setComment] = useState('');
@@ -85,8 +69,6 @@ function Profile() {
 	const [editLevel, setEditLevel] = useState('');
 	const [editingFeedback, setEditingFeedback] = useState(false);
 	const [feedbackId, setFeedbackId] = useState(0);
-	const classes = useStyles();
-
 	const { username } = useParams();
 
 	const handleChange = (event, newValue) => {
@@ -179,7 +161,7 @@ function Profile() {
 		//? this gets messages from the db on page load
 		dispatch({ type: 'GET_PROFILE', payload: username });
 		//? this is what server sends
-	}, [dispatch]);
+	}, []);
 
 	return (
 		<Box sx={{ display: 'flex' }}>
@@ -218,20 +200,17 @@ function Profile() {
 					</ul>
 				</div>
 				<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-					<Tabs
-						value={value}
-						onChange={handleChange}
-						aria-label='Tabs where each tab needs to be selected manually'>
-						<Tab className={classes.tab} label='Feedback' {...a11yProps(0)} />
+					<Tabs value={value} onChange={handleChange}>
+						<Tab sx={{ color: 'white' }} label='Feedback' {...a11yProps(0)} />
 						{user.id === profile.user_info?.id ? (
 							<Tab
-								className={classes.tab}
+								sx={{ color: 'white' }}
 								label='Edit Account'
 								{...a11yProps(1)}
 								onClick={handleEdit}
 							/>
 						) : (
-							<Tab className={classes.tab} label='Add Feedback' {...a11yProps(1)} />
+							<Tab sx={{ color: 'white' }} label='Add Feedback' {...a11yProps(1)} />
 						)}
 					</Tabs>
 				</Box>

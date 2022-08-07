@@ -22,15 +22,9 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { makeStyles } from '@mui/styles';
+import useStyles from '../../hooks/useStyle';
 
 const drawerWidth = 280;
-
-const useStyles = makeStyles({
-	paper: {
-		background: '#aba486',
-	},
-});
 
 function SideBar() {
 	const [messageOpen, setMessageOpen] = useState(false);
@@ -42,6 +36,7 @@ function SideBar() {
 	const notifications = useSelector((store) => store.notificationReducer);
 	const dispatch = useDispatch();
 	const history = useHistory();
+	const classes = useStyles();
 
 	const goToProfile = () => {
 		dispatch({ type: 'GET_PROFILE', payload: user.tarkov_name });
@@ -61,8 +56,6 @@ function SideBar() {
 	const markAsRead = (notificationId) => {
 		dispatch({ type: 'MARK_AS_READ', payload: notificationId });
 	};
-
-	const classes = useStyles();
 
 	useEffect(() => {
 		dispatch({ type: 'ALL_MESSAGES' });
@@ -89,7 +82,7 @@ function SideBar() {
 						width: drawerWidth,
 						boxSizing: 'border-box',
 					},
-					background: '#75705f',
+					background: '#aba486',
 				}}
 				variant='permanent'
 				anchor='left'

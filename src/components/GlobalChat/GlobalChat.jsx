@@ -101,7 +101,7 @@ function GlobalChat() {
 				<Toolbar />
 				<center>
 					<div className='globalChat'>
-						<header>{'GLOBAL CHAT'}</header>
+						<header>GLOBAL CHAT</header>
 					</div>
 					<List id='messageScroll' style={{ maxHeight: 500, overflow: 'auto' }}>
 						{messages.map((message) => (
@@ -168,9 +168,7 @@ function GlobalChat() {
 									placeholder='Message....'
 								/>
 								<Divider sx={{ height: 28, m: 0.5 }} orientation='vertical' />
-								<IconButton color='primary' sx={{ p: '10px' }}>
-									<Chip onClick={sendMessage} icon={<SendIcon />} label='Send' />
-								</IconButton>
+								<Chip onClick={sendMessage} icon={<SendIcon />} label='Send' />
 							</Paper>
 						)}
 					</center>
