@@ -5,14 +5,9 @@ import socket from '../../socket/socket';
 import SideBar from '../SideBar/SideBar';
 
 //? Testing
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
+
+import { Box, Toolbar, List, Paper, InputBase, Divider, Chip } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import Chip from '@mui/material/Chip';
 
 function PrivateChat() {
 	const [message, setMessage] = useState('');
@@ -48,6 +43,14 @@ function PrivateChat() {
 		console.log('HERE IS THE ID', id);
 		dispatch({ type: 'GET_PROFILE', payload: id.user_id });
 		history.push(`/profile/${id.tarkov_name}`);
+	};
+
+	const handleEdit = (id) => {
+		console.log('EDITING');
+	};
+
+	const handleDelete = (id) => {
+		dispatch({ type: 'DELETE_PRIVATE_MESSAGE', payload: id });
 	};
 
 	//? Will need this use effect to load messages on page load
@@ -89,8 +92,12 @@ function PrivateChat() {
 										</h3>
 										<p className='messageDesc'>{message.message}</p>
 										<p className='messageButtons'>
-											<span className='editSpan'>Edit</span>
-											<span className='deleteSpan'>Delete</span>
+											<span onClick={() => handleEdit(message.id)} className='editSpan'>
+												Edit
+											</span>
+											<span onClick={() => handleDelete(message.id)} className='deleteSpan'>
+												Delete
+											</span>
 										</p>
 									</>
 								) : (

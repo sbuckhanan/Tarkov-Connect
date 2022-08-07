@@ -81,6 +81,16 @@ function* postPrivateMessage(action) {
 	}
 }
 
+function* deletePrivateMessage(action) {
+	try {
+		// clear any existing error on the login page
+		yield axios.delete(`/api/messages/privateMessage/${action.payload}`);
+		yield yield socket.emit('send_private_message', action.payload);
+	} catch (error) {
+		console.log('Error with get messages:', error);
+	}
+}
+
 function* messageSaga() {
 	yield takeLatest('GET_MESSAGES', getMessages);
 	yield takeLatest('GET_PRIVATE_MESSAGES', getPrivateMessages);
@@ -89,6 +99,7 @@ function* messageSaga() {
 	yield takeLatest('ALL_MESSAGES', myMessages);
 	yield takeLatest('DELETE_MESSAGE', deleteMessage);
 	yield takeLatest('EDIT_MESSAGE', editMessage);
+	yield takeLatest('DELETE_PRIVATE_MESSAGE', deletePrivateMessage);
 }
 
 export default messageSaga;

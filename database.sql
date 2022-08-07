@@ -48,5 +48,5 @@ CREATE TABLE "notifications" (
     "message" VARCHAR(300),
     "time" VARCHAR(100),
     "receiver_user_id" INT REFERENCES "user",
-    "isRead" BOOLEAN DEFAULT false
+    "isRead" INT DEFAULT 1
 );

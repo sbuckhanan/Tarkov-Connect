@@ -6,17 +6,9 @@ import './GlobalChat.css';
 import SideBar from '../SideBar/SideBar';
 import Swal from 'sweetalert2';
 
-//? Testing
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
+import { Box, Toolbar, List, Paper, InputBase, Divider, IconButton, Chip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
-import Chip from '@mui/material/Chip';
 
 //? end of those testing
 

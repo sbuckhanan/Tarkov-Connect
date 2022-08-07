@@ -216,4 +216,22 @@ router.post('/notifications', (req, res) => {
 	}
 });
 
+router.delete('/privateMessage/:id', (req, res) => {
+	const id = req.params.id;
+	if (req.isAuthenticated()) {
+		let queryText = `DELETE FROM private_messages WHERE id = $1;`;
+		pool
+			.query(queryText, [id])
+			.then((result) => {
+				res.sendStatus(201);
+			})
+			.catch((error) => {
+				console.log('ERROR DELETING', error);
+				res.sendStatus(500);
+			});
+	} else {
+		res.sendStatus(403);
+	}
+});
+
 module.exports = router;
