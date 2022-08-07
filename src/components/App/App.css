@@ -136,3 +136,7 @@ input {
 	color: blue;
 	cursor: pointer;
 }
+
+.notificationCard {
+	cursor: pointer;
+}

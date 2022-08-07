@@ -50,3 +50,15 @@ CREATE TABLE "notifications" (
     "receiver_user_id" INT REFERENCES "user",
     "isRead" INT DEFAULT 1
 );
+
+CREATE TABLE "user_friends" (
+    "id" SERIAL PRIMARY KEY,
+    "user_id" INT REFERENCES "user",
+    "friend_id" INT REFERENCES "user"
+);
+
+CREATE TABLE "friend_requests" (
+	"id" SERIAL PRIMARY KEY,
+    "requester_user_id" INT REFERENCES "user",
+    "sender_user_id" INT REFERENCES "user"
+);

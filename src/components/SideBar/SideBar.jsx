@@ -107,7 +107,6 @@ function SideBar() {
 									<div key={notification.id}>
 										<ListItem alignItems='flex-start'>
 											<ListItemText
-												onClick={() => goToMessage(notification)}
 												secondary={
 													<>
 														<Typography
@@ -189,10 +188,10 @@ function SideBar() {
 									<div key={message.message_id}>
 										<ListItem alignItems='flex-start'>
 											<ListItemText
+												onClick={() => privateMessage(message)}
 												secondary={
 													<>
 														<Typography
-															onClick={() => privateMessage(message)}
 															sx={{ display: 'inline' }}
 															component='span'
 															variant='body2'
