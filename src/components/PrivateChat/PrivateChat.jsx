@@ -6,8 +6,9 @@ import SideBar from '../SideBar/SideBar';
 
 //? Testing
 
-import { Box, Toolbar, List, Paper, InputBase, Divider, Chip } from '@mui/material';
+import { Box, Toolbar, List, Paper, InputBase, Divider, Chip, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import CloseIcon from '@mui/icons-material/Close';
 
 function PrivateChat() {
 	const [message, setMessage] = useState('');
@@ -18,6 +19,8 @@ function PrivateChat() {
 	const history = useHistory();
 	const profile = useSelector((store) => store.profile);
 	const { username } = useParams();
+	const [editing, setEditing] = useState(false);
+	const [messageId, setMessageId] = useState(0);
 
 	const messagesEndRef = useRef(null);
 
@@ -45,8 +48,24 @@ function PrivateChat() {
 		history.push(`/profile/${id.tarkov_name}`);
 	};
 
-	const handleEdit = (id) => {
+	const startEdit = (message) => {
 		console.log('EDITING');
+		setEditing(!editing);
+		setMessage(message.message);
+		setMessageId(message.id);
+	};
+
+	const submitEdit = () => {
+		dispatch({ type: 'EDIT_PRIVATE_MESSAGE', payload: { id: messageId, message } });
+		setEditing(!editing);
+		setMessage('');
+		setMessageId(0);
+	};
+
+	const cancelEdit = () => {
+		setEditing(!editing);
+		setMessage('');
+		setMessageId(0);
 	};
 
 	const handleDelete = (id) => {
@@ -92,7 +111,7 @@ function PrivateChat() {
 										</h3>
 										<p className='messageDesc'>{message.message}</p>
 										<p className='messageButtons'>
-											<span onClick={() => handleEdit(message.id)} className='editSpan'>
+											<span onClick={() => startEdit(message)} className='editSpan'>
 												Edit
 											</span>
 											<span onClick={() => handleDelete(message.id)} className='deleteSpan'>
@@ -126,7 +145,17 @@ function PrivateChat() {
 								placeholder='Message....'
 							/>
 							<Divider sx={{ height: 28, m: 0.5 }} orientation='vertical' />
-							<Chip onClick={sendMessage} icon={<SendIcon />} label='Send' />
+							{editing ? (
+								<>
+									<Chip onClick={submitEdit} icon={<SendIcon />} label='Submit Edit' />
+									<Divider sx={{ height: 28, m: 0.5 }} orientation='vertical' />
+									<IconButton onClick={cancelEdit} color='primary' sx={{ p: '10px' }}>
+										<CloseIcon />
+									</IconButton>
+								</>
+							) : (
+								<Chip onClick={sendMessage} icon={<SendIcon />} label='Send' />
+							)}
 						</Paper>
 					</center>
 				</center>

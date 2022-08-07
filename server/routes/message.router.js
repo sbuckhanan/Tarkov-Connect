@@ -216,6 +216,25 @@ router.post('/notifications', (req, res) => {
 	}
 });
 
+router.put('/privateMessage/:id', (req, res) => {
+	const id = req.params.id;
+	const { message } = req.body;
+	if (req.isAuthenticated()) {
+		let queryText = `UPDATE private_messages SET message = $2 WHERE id = $1;`;
+		pool
+			.query(queryText, [id, message])
+			.then((result) => {
+				res.sendStatus(201);
+			})
+			.catch((error) => {
+				console.log('ERROR DELETING', error);
+				res.sendStatus(500);
+			});
+	} else {
+		res.sendStatus(403);
+	}
+});
+
 router.delete('/privateMessage/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {
