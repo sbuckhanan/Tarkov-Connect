@@ -13,6 +13,25 @@ import './Profile.css';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ChatIcon from '@mui/icons-material/Chat';
 import Swal from 'sweetalert2';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { makeStyles } from '@mui/styles';
+
+const min = 0;
+const max = 10;
+
+const useStyles = makeStyles(() => ({
+	textField: {
+		width: '250px',
+		marginRight: '10px',
+	},
+	input: {
+		background: 'white',
+	},
+	tab: {
+		color: 'white',
+	},
+}));
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -60,6 +79,7 @@ function Profile() {
 	const [editLevel, setEditLevel] = useState('');
 	const [editingFeedback, setEditingFeedback] = useState(false);
 	const [feedbackId, setFeedbackId] = useState(0);
+	const classes = useStyles();
 
 	const { username } = useParams();
 
@@ -177,12 +197,20 @@ function Profile() {
 					</ul>
 				</div>
 				<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-					<Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
-						<Tab label='Feedback' {...a11yProps(0)} />
+					<Tabs
+						value={value}
+						onChange={handleChange}
+						aria-label='Tabs where each tab needs to be selected manually'>
+						<Tab className={classes.tab} label='Feedback' {...a11yProps(0)} />
 						{user.id === profile.user_info?.id ? (
-							<Tab label='Edit Account' {...a11yProps(1)} onClick={handleEdit} />
+							<Tab
+								className={classes.tab}
+								label='Edit Account'
+								{...a11yProps(1)}
+								onClick={handleEdit}
+							/>
 						) : (
-							<Tab label='Add Feedback' {...a11yProps(1)} />
+							<Tab className={classes.tab} label='Add Feedback' {...a11yProps(1)} />
 						)}
 					</Tabs>
 				</Box>
@@ -225,46 +253,64 @@ function Profile() {
 				{user.id === profile.user_info?.id ? (
 					<TabPanel value={value} index={1}>
 						<h3>EDITING ACCOUNT</h3>
-						<label htmlFor='tarkovName'>Tarkov Name</label>
-						<input
+						<TextField
+							id='filled-basic'
+							label='Tarkov Name'
+							variant='filled'
 							value={editName}
-							name='tarkovName'
 							type='text'
-							placeholder='0'
 							onChange={(e) => setEditName(e.target.value)}
 						/>
-						<label htmlFor='tarkovLevel'>Tarkov Level</label>
-						<input
+						<TextField
+							id='filled-basic'
+							label='Tarkov Level'
+							variant='filled'
 							value={editLevel}
-							name='tarkovLevel'
 							type='number'
-							placeholder='Comment...'
+							inputProps={{ min }}
 							onChange={(e) => setEditLevel(e.target.value)}
 						/>
-						<button onClick={submitEdit}>Submit Edit</button>
+						<Button variant='contained' onClick={submitEdit}>
+							Submit Edit
+						</Button>
 					</TabPanel>
 				) : (
 					<TabPanel value={value} index={1}>
-						<label htmlFor='rating'>Rating</label>
-						<input
+						<TextField
+							className={classes.textField}
+							id='filled-basic'
+							label='Rating'
+							variant='filled'
 							value={rating}
-							name='rating'
 							type='number'
 							placeholder='0'
+							inputProps={{ min, max }}
 							onChange={(e) => setRating(e.target.value)}
+							InputProps={{
+								className: classes.input,
+							}}
 						/>
-						<label htmlFor='comment'>Comment</label>
-						<input
+						<TextField
+							className={classes.textField}
+							id='filled-basic'
+							label='Comment'
+							variant='filled'
 							value={comment}
-							name='comment'
 							type='text'
 							placeholder='Comment...'
 							onChange={(e) => setComment(e.target.value)}
+							InputProps={{
+								className: classes.input,
+							}}
 						/>
 						{editingFeedback ? (
-							<button onClick={submitEditedFeedback}>Submit Edit</button>
+							<Button variant='contained' onClick={submitEditedFeedback}>
+								Submit Edit
+							</Button>
 						) : (
-							<button onClick={addFeedback}>Submit</button>
+							<Button variant='contained' onClick={addFeedback}>
+								Submit
+							</Button>
 						)}
 					</TabPanel>
 				)}

@@ -10,8 +10,13 @@ import Swal from 'sweetalert2';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import SendIcon from '@mui/icons-material/Send';
+import Chip from '@mui/material/Chip';
+import CloseIcon from '@mui/icons-material/Close';
 
 //? end of those testing
 
@@ -94,72 +99,81 @@ function GlobalChat() {
 			<SideBar />
 			<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
 				<Toolbar />
-				<List id='messageScroll' style={{ maxHeight: 550, overflow: 'auto' }}>
-					{messages.map((message) => (
-						<div className='messageCard' key={message.id}>
-							{message.user_id === user.id ? (
-								<>
-									<h3 className='messageName'>
-										<span className='underlineName' onClick={() => goToProfile(message)}>
-											{message.tarkov_name}
-										</span>
-										<span className='messageTime'> {message.time}</span>
-									</h3>
-									<p className='messageDesc'>{message.description}</p>
-									<p>
-										<span className='editSpan' onClick={() => handleEdit(message)}>
-											Edit
-										</span>
-										<span className='deleteSpan' onClick={() => handleDelete(message.id)}>
-											Delete
-										</span>
-									</p>
-								</>
-							) : (
-								<>
-									<h3 className='messageName'>
-										<span className='underlineName' onClick={() => goToProfile(message)}>
-											{message.tarkov_name}
-										</span>
-										<span className='messageTime'> {message.time}</span>
-									</h3>
-									<p className='messageDesc'>{message.description}</p>
-								</>
-							)}
-						</div>
-					))}
-					<div ref={messagesEndRef} />
-				</List>
 				<center>
-					{editMessage !== '' ? (
-						<>
-							<OutlinedInput
-								value={editMessage}
-								placeholder='Message...'
-								sx={{ m: 1, width: 600 }}
-								id='Message'
-								label='Message'
-								onChange={(e) => setEditMessage(e.target.value)}
-							/>
-							<Button onClick={submitEdit} variant='contained'>
-								SUBMIT EDIT
-							</Button>
-						</>
-					) : (
-						<>
-							<OutlinedInput
-								value={message}
-								placeholder='Message...'
-								sx={{ m: 1, width: 600 }}
-								id='Message'
-								label='Message'
-								onChange={(e) => setMessage(e.target.value)}
-							/>
-							<Button onClick={sendMessage} variant='contained'>
-								Send
-							</Button>
-						</>
-					)}
+					<div className='globalChat'>
+						<header>{'GLOBAL CHAT'}</header>
+					</div>
+					<List id='messageScroll' style={{ maxHeight: 500, overflow: 'auto' }}>
+						{messages.map((message) => (
+							<div className='messageCard' key={message.id}>
+								{message.user_id === user.id ? (
+									<>
+										<h3 className='messageName'>
+											<span className='underlineName' onClick={() => goToProfile(message)}>
+												{message.tarkov_name}
+											</span>
+											<span className='messageTime'> {message.time}</span>
+										</h3>
+										<p className='messageDesc'>{message.description}</p>
+										<p className='messageButtons'>
+											<span className='editSpan' onClick={() => handleEdit(message)}>
+												Edit
+											</span>
+											<span className='deleteSpan' onClick={() => handleDelete(message.id)}>
+												Delete
+											</span>
+										</p>
+									</>
+								) : (
+									<>
+										<h3 className='messageName'>
+											<span className='underlineName' onClick={() => goToProfile(message)}>
+												{message.tarkov_name}
+											</span>
+											<span className='messageTime'> {message.time}</span>
+										</h3>
+										<p className='messageDesc'>{message.description}</p>
+									</>
+								)}
+							</div>
+						))}
+						<div ref={messagesEndRef} />
+					</List>
+					<center>
+						{editMessage !== '' ? (
+							<Paper
+								component='form'
+								sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 600 }}>
+								<InputBase
+									onChange={(e) => setEditMessage(e.target.value)}
+									value={editMessage}
+									sx={{ ml: 1, flex: 1 }}
+									placeholder='Message....'
+								/>
+								<Divider sx={{ height: 28, m: 0.5 }} orientation='vertical' />
+								<Chip onClick={submitEdit} icon={<SendIcon />} label='Submit Edit' />
+								<Divider sx={{ height: 28, m: 0.5 }} orientation='vertical' />
+								<IconButton onClick={() => setEditMessage('')} color='primary' sx={{ p: '10px' }}>
+									<CloseIcon />
+								</IconButton>
+							</Paper>
+						) : (
+							<Paper
+								component='form'
+								sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 600 }}>
+								<InputBase
+									onChange={(e) => setMessage(e.target.value)}
+									value={message}
+									sx={{ ml: 1, flex: 1 }}
+									placeholder='Message....'
+								/>
+								<Divider sx={{ height: 28, m: 0.5 }} orientation='vertical' />
+								<IconButton color='primary' sx={{ p: '10px' }}>
+									<Chip onClick={sendMessage} icon={<SendIcon />} label='Send' />
+								</IconButton>
+							</Paper>
+						)}
+					</center>
 				</center>
 			</Box>
 		</Box>

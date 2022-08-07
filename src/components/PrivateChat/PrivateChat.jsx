@@ -69,50 +69,55 @@ function PrivateChat() {
 			<SideBar />
 			<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
 				<Toolbar />
-				<List id='messageScroll' style={{ maxHeight: 550, overflow: 'auto' }}>
-					{messages.map((message) => (
-						<div className='messageCard' key={message.id}>
-							{message.user_id === user.id ? (
-								<>
-									<h3 className='messageName'>
-										<span className='underlineName' onClick={() => goToProfile(message)}>
-											{message.tarkov_name}
-										</span>
-										<span className='messageTime'> {message.time}</span>
-									</h3>
-									<p className='messageDesc'>{message.message}</p>
-									<p>
-										<span className='editSpan'>Edit</span>
-										<span className='deleteSpan'>Delete</span>
-									</p>
-								</>
-							) : (
-								<>
-									<h3 className='messageName'>
-										<span className='underlineName' onClick={() => goToProfile(message)}>
-											{message.tarkov_name}
-										</span>
-										<span className='messageTime'> {message.time}</span>
-									</h3>
-									<p className='messageDesc'>{message.message}</p>
-								</>
-							)}
-						</div>
-					))}
-					<div ref={messagesEndRef} />
-				</List>
 				<center>
-					<OutlinedInput
-						value={message}
-						placeholder='Message...'
-						sx={{ m: 1, width: 600 }}
-						id='Message'
-						label='Message'
-						onChange={(e) => setMessage(e.target.value)}
-					/>
-					<Button onClick={sendMessage} variant='contained'>
-						Send
-					</Button>
+					<div className='globalChat'>
+						<header>Private Chat with @{profile.user_info.tarkov_name}</header>
+					</div>
+					<List id='messageScroll' style={{ maxHeight: 500, overflow: 'auto' }}>
+						{messages.map((message) => (
+							<div className='messageCard' key={message.id}>
+								{message.user_id === user.id ? (
+									<>
+										<h3 className='messageName'>
+											<span className='underlineName' onClick={() => goToProfile(message)}>
+												{message.tarkov_name}
+											</span>
+											<span className='messageTime'> {message.time}</span>
+										</h3>
+										<p className='messageDesc'>{message.message}</p>
+										<p className='messageButtons'>
+											<span className='editSpan'>Edit</span>
+											<span className='deleteSpan'>Delete</span>
+										</p>
+									</>
+								) : (
+									<>
+										<h3 className='messageName'>
+											<span className='underlineName' onClick={() => goToProfile(message)}>
+												{message.tarkov_name}
+											</span>
+											<span className='messageTime'> {message.time}</span>
+										</h3>
+										<p className='messageDesc'>{message.message}</p>
+									</>
+								)}
+							</div>
+						))}
+						<div ref={messagesEndRef} />
+					</List>
+					<center>
+						<OutlinedInput
+							value={message}
+							placeholder='Message...'
+							sx={{ m: 1, width: 600 }}
+							id='Message'
+							label='Message'
+							onChange={(e) => setMessage(e.target.value)}
+						/>
+						<Button onClick={sendMessage} variant='contained'>
+							Send
+						</Button>
+					</center>
 				</center>
 			</Box>
 		</Box>

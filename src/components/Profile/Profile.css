@@ -8,8 +8,16 @@
 	color: rgb(8, 201, 8);
 }
 .profileContainer {
-	background-color: rgba(0, 0, 0, 0.529);
+	background-color: rgba(0, 0, 0, 0.272);
 	color: white;
 	width: 80%;
 	border-radius: 10px;
+}
+
+.inputBackground {
+	background-color: white;
+}
+
+.tabColor {
+	color: white;
 }

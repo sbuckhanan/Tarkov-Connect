@@ -6,6 +6,7 @@ body,
 	overflow: hidden;
 	overscroll-behavior-x: none;
 	overscroll-behavior-y: none;
+	background-color: black;
 }
 
 body {
@@ -127,10 +128,15 @@ input {
 
 .topBar {
 	height: 50px;
+	background-color: #959083;
 }
 
 .markAsRead {
 	text-decoration: underline;
 	color: blue;
 	cursor: pointer;
+}
+
+.SideBarContainer {
+	background-color: blue;
 }

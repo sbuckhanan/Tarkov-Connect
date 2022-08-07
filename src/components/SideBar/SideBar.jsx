@@ -21,9 +21,16 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Badge from '@mui/material/Badge';
-import MailIcon from '@mui/icons-material/Mail';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { makeStyles } from '@mui/styles';
 
 const drawerWidth = 280;
+
+const useStyles = makeStyles({
+	paper: {
+		background: '#aba486',
+	},
+});
 
 function SideBar() {
 	const [messageOpen, setMessageOpen] = useState(false);
@@ -55,6 +62,8 @@ function SideBar() {
 		dispatch({ type: 'MARK_AS_READ', payload: notificationId });
 	};
 
+	const classes = useStyles();
+
 	useEffect(() => {
 		dispatch({ type: 'ALL_MESSAGES' });
 	}, [dispatch]);
@@ -67,11 +76,12 @@ function SideBar() {
 				sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
 				<Toolbar className='topBar'>
 					<Typography variant='h6' noWrap component='div'>
-						Tarkov Connects
+						Tarkov Connect
 					</Typography>
 				</Toolbar>
 			</AppBar>
 			<Drawer
+				classes={{ paper: classes.paper }}
 				sx={{
 					width: drawerWidth,
 					flexShrink: 0,
@@ -79,17 +89,19 @@ function SideBar() {
 						width: drawerWidth,
 						boxSizing: 'border-box',
 					},
+					background: '#75705f',
 				}}
 				variant='permanent'
-				anchor='left'>
+				anchor='left'
+				className='SideBarContainer'>
 				<Toolbar />
 				<span onClick={goToProfile}>{user.tarkov_name}</span>
 				<Divider />
 				<List>
 					<ListItemButton onClick={() => setNotificationOpen(!notificationOpen)}>
 						<span className='notifications'>Notifications</span>{' '}
-						<Badge color='secondary' badgeContent={totalNotifications}>
-							<MailIcon />
+						<Badge color='primary' badgeContent={totalNotifications}>
+							<NotificationsIcon />
 						</Badge>
 						{notificationOpen ? <ExpandLess /> : <ExpandMore />}
 					</ListItemButton>
@@ -108,6 +120,7 @@ function SideBar() {
 															component='span'
 															variant='body2'
 															color='text.primary'>
+															NEW MESSAGE <br />
 															{notification.from}{' '}
 														</Typography>
 														{notification.time}
