@@ -12,12 +12,22 @@ function* requestFriend(action) {
 		});
 		yield socket.emit('send_private_message', action.payload);
 	} catch (error) {
-		console.log('Error with get messages:', error);
+		console.log('Error with posting friendRequest', error);
+	}
+}
+
+function* getFriends(action) {
+	try {
+		const myFriends = yield axios.get('/api/friends');
+		put({ type: 'SET_FRIENDS', payload: myFriends.data });
+	} catch (error) {
+		console.log('Error with getting friends', error);
 	}
 }
 
 function* requestFriendSaga() {
 	yield takeLatest('REQUEST_FRIEND', requestFriend);
+	yield takeLatest('GET_FRIENDS', getFriends);
 }
 
 export default requestFriendSaga;

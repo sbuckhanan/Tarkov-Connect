@@ -21,12 +21,12 @@ router.get('/personId/:username', (req, res) => {
 	}
 });
 
-router.get('/', (req, res) => {
-	const username = req.params.username;
+router.get('/:id', (req, res) => {
+	const id = req.params.id;
 	if (req.isAuthenticated()) {
-		const queryText = '';
+		const queryText = 'SELECT * FROM user_friends WHERE user_id = $1 AND friend_id = $2;';
 		pool
-			.query(queryText, [username])
+			.query(queryText, [req.user.id, id])
 			.then((result) => {
 				res.send(result.rows[0]);
 			})

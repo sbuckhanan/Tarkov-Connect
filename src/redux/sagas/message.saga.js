@@ -84,7 +84,7 @@ function* postPrivateMessage(action) {
 function* editPrivateMessage(action) {
 	try {
 		// clear any existing error on the login page
-		yield axios.put(`/api/messages/privateMessage/${action.payload.id}`);
+		yield axios.put(`/api/messages/privateMessage/${action.payload.id}`, action.payload);
 		yield yield socket.emit('send_private_message', action.payload);
 	} catch (error) {
 		console.log('Error with get messages:', error);
