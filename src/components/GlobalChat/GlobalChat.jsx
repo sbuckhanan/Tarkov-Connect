@@ -14,9 +14,9 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import Chip from '@mui/material/Chip';
-import CloseIcon from '@mui/icons-material/Close';
 
 //? end of those testing
 

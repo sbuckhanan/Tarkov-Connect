@@ -13,9 +13,15 @@ import './Profile.css';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ChatIcon from '@mui/icons-material/Chat';
 import Swal from 'sweetalert2';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
+
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import SendIcon from '@mui/icons-material/Send';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Chip from '@mui/material/Chip';
 
 const min = 0;
 const max = 10;
@@ -88,11 +94,18 @@ function Profile() {
 	};
 
 	const addFeedback = () => {
-		console.log('ADDING FEEDBACK');
 		dispatch({
 			type: 'ADD_FEEDBACK',
-			payload: { rating, comment, receiver: profile.user_info.tarkov_name },
+			payload: {
+				rating,
+				comment,
+				receiverName: profile.user_info.tarkov_name,
+				receiver: profile.user_info.id,
+			},
 		});
+		setValue(0);
+		setRating(0);
+		setComment('');
 	};
 
 	const privateMessage = (id) => {
@@ -119,6 +132,14 @@ function Profile() {
 		setFeedbackId(feedback.id);
 		setValue(1);
 		//? Maybe figure out how to go to the other tab?
+	};
+
+	const cancelEdit = () => {
+		setEditingFeedback(!editingFeedback);
+		setRating(0);
+		setComment('');
+		setFeedbackId(0);
+		setValue(0);
 	};
 
 	const submitEditedFeedback = () => {
@@ -252,66 +273,78 @@ function Profile() {
 				</TabPanel>
 				{user.id === profile.user_info?.id ? (
 					<TabPanel value={value} index={1}>
-						<h3>EDITING ACCOUNT</h3>
-						<TextField
-							id='filled-basic'
-							label='Tarkov Name'
-							variant='filled'
-							value={editName}
-							type='text'
-							onChange={(e) => setEditName(e.target.value)}
-						/>
-						<TextField
-							id='filled-basic'
-							label='Tarkov Level'
-							variant='filled'
-							value={editLevel}
-							type='number'
-							inputProps={{ min }}
-							onChange={(e) => setEditLevel(e.target.value)}
-						/>
-						<Button variant='contained' onClick={submitEdit}>
-							Submit Edit
-						</Button>
+						<h3 className='editingHeader'>EDITING ACCOUNT</h3>
+						<Paper
+							component='form'
+							sx={{
+								p: '2px 4px',
+								display: 'inline',
+								alignItems: 'center',
+								width: 250,
+								height: 200,
+							}}>
+							<InputBase
+								onChange={(e) => setEditName(e.target.value)}
+								value={editName}
+								sx={{ ml: 1, flex: 1 }}
+								placeholder='Message....'
+							/>
+						</Paper>
+						<Paper
+							component='form'
+							sx={{ p: '2px 4px', display: 'inline', alignItems: 'center', width: 50, ml: 3 }}>
+							<InputBase
+								onChange={(e) => setEditLevel(e.target.value)}
+								value={editLevel}
+								sx={{ ml: 1, flex: 1, width: 100 }}
+								placeholder='0'
+								type='number'
+								inputProps={{ min }}
+							/>
+							<Divider sx={{ height: 28, m: 0.5, display: 'inline' }} orientation='vertical' />
+							<Chip onClick={submitEdit} icon={<SendIcon />} label='Submit' />
+						</Paper>
 					</TabPanel>
 				) : (
 					<TabPanel value={value} index={1}>
-						<TextField
-							className={classes.textField}
-							id='filled-basic'
-							label='Rating'
-							variant='filled'
-							value={rating}
-							type='number'
-							placeholder='0'
-							inputProps={{ min, max }}
-							onChange={(e) => setRating(e.target.value)}
-							InputProps={{
-								className: classes.input,
-							}}
-						/>
-						<TextField
-							className={classes.textField}
-							id='filled-basic'
-							label='Comment'
-							variant='filled'
-							value={comment}
-							type='text'
-							placeholder='Comment...'
-							onChange={(e) => setComment(e.target.value)}
-							InputProps={{
-								className: classes.input,
-							}}
-						/>
-						{editingFeedback ? (
-							<Button variant='contained' onClick={submitEditedFeedback}>
-								Submit Edit
-							</Button>
-						) : (
-							<Button variant='contained' onClick={addFeedback}>
-								Submit
-							</Button>
-						)}
+						<Paper component='form' sx={{ p: '2px 4px', display: 'inline', alignItems: 'center' }}>
+							<InputBase
+								value={rating}
+								sx={{ ml: 1, flex: 1, width: 100 }}
+								placeholder='0'
+								type='number'
+								inputProps={{ min, max }}
+								onChange={(e) => setRating(e.target.value)}
+							/>
+						</Paper>
+						<Paper
+							component='form'
+							sx={{
+								p: '2px 4px',
+								display: 'inline',
+								alignItems: 'center',
+								width: 250,
+								height: 200,
+								ml: 3,
+							}}>
+							<InputBase
+								onChange={(e) => setComment(e.target.value)}
+								value={comment}
+								sx={{ ml: 1, flex: 1 }}
+								placeholder='Comment....'
+							/>
+							{editingFeedback ? (
+								<>
+									<Chip onClick={submitEditedFeedback} icon={<SendIcon />} label='Submit Edit' />
+									<Divider sx={{ height: 28, m: 0.5, display: 'inline' }} orientation='vertical' />
+									<IconButton onClick={cancelEdit} color='primary' sx={{ p: '10px' }}>
+										<CloseIcon />
+									</IconButton>
+								</>
+							) : (
+								<Chip onClick={addFeedback} icon={<SendIcon />} label='Submit' />
+							)}
+						</Paper>
 					</TabPanel>
 				)}
 			</Box>

@@ -21,7 +21,7 @@ function* addFeedback(action) {
 	try {
 		// clear any existing error on the login page
 		yield axios.post(`/api/profile/feedback`, action.payload);
-		yield put({ type: 'GET_PROFILE', payload: action.payload.receiver });
+		yield put({ type: 'GET_PROFILE', payload: action.payload.receiverName });
 	} catch (error) {
 		console.log('Error with get messages:', error);
 	}
