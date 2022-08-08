@@ -42,6 +42,9 @@ function App() {
 			// alert('NEW MESSAGE');
 			play();
 			dispatch({ type: 'GET_NOTIFICATIONS' });
+			dispatch({ type: 'ALL_MESSAGES' });
+			dispatch({ type: 'GET_FRIEND_REQUESTS' });
+			dispatch({ type: 'GET_FRIENDS' });
 		});
 	}, [dispatch, socket]);
 
