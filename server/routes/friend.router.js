@@ -135,4 +135,23 @@ router.post('/accept', (req, res) => {
 	}
 });
 
+router.delete('/decline/:id', (req, res) => {
+	if (req.isAuthenticated()) {
+		const id = req.params.id;
+		const queryText =
+			'DELETE FROM friend_requests WHERE sender_user_id = $2 AND receiver_user_id = $1;';
+		pool
+			.query(queryText, [req.user.id, id])
+			.then((result) => {
+				res.sendStatus(200);
+			})
+			.catch((error) => {
+				console.log('Error declining friend request', error);
+				res.sendStatus(500);
+			});
+	} else {
+		res.sendStatus(403);
+	}
+});
+
 module.exports = router;

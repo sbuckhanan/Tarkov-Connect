@@ -158,3 +158,13 @@ input {
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+.addFriendButton {
+	cursor: pointer;
+	margin-left: 8px;
+}
+
+.privateMessageButton {
+	cursor: pointer;
+	margin-left: 8px;
+}

@@ -28,6 +28,16 @@ function* acceptFriend(action) {
 	}
 }
 
+function* declineFriend(action) {
+	try {
+		yield axios.delete(`/api/friends/decline/${action.payload.requester}`);
+		yield put({ type: 'GET_FRIENDS' });
+		yield put({ type: 'GET_FRIEND_REQUESTS' });
+	} catch (error) {
+		console.log('Error with posting new friend', error);
+	}
+}
+
 function* getFriends() {
 	try {
 		const myFriends = yield axios.get('/api/friends');
@@ -51,6 +61,7 @@ function* requestFriendSaga() {
 	yield takeLatest('GET_FRIENDS', getFriends);
 	yield takeLatest('GET_FRIEND_REQUESTS', getFriendRequests);
 	yield takeLatest('ACCEPT_FRIEND', acceptFriend);
+	yield takeLatest('DECLINE_REQUEST', declineFriend);
 }
 
 export default requestFriendSaga;

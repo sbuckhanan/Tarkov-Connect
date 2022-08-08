@@ -68,9 +68,16 @@ function SideBar() {
 		});
 	};
 
+	const declineFriend = (request) => {
+		dispatch({ type: 'DECLINE_REQUEST', payload: { requester: request.sender_user_id } });
+	};
+
 	useEffect(() => {
 		dispatch({ type: 'ALL_MESSAGES' });
-	}, [dispatch]);
+		dispatch({ type: 'GET_NOTIFICATIONS' });
+		dispatch({ type: 'GET_FRIEND_REQUESTS' });
+		dispatch({ type: 'GET_FRIENDS' });
+	}, []);
 
 	return (
 		<>
@@ -182,7 +189,9 @@ function SideBar() {
 														<span onClick={() => acceptFriend(request)} className='acceptButton'>
 															Accept
 														</span>{' '}
-														<span className='declineButton'>Decline</span>
+														<span onClick={() => declineFriend(request)} className='declineButton'>
+															Decline
+														</span>
 													</Typography>
 												</>
 											}

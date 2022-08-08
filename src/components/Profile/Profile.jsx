@@ -192,11 +192,11 @@ function Profile() {
 						{profile.user_info?.id !== user.id ? (
 							<>
 								{profile?.friends ? null : (
-									<span>
+									<span className='addFriendButton'>
 										<PersonAddIcon onClick={requestAsFriend} />
 									</span>
 								)}
-								<span>
+								<span className='privateMessageButton'>
 									<ChatIcon onClick={() => privateMessage(profile.user_info?.id)} />
 								</span>
 							</>
