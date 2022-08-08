@@ -11,6 +11,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import socket from '../../socket/socket';
 import Profile from '../Profile/Profile';
+import useSound from 'use-sound';
 
 import './App.css';
 import GlobalChat from '../GlobalChat/GlobalChat';
@@ -21,9 +22,17 @@ function App() {
 
 	const user = useSelector((store) => store.user);
 
+	const soundUrl = '/sounds/sound.mp3';
+
+	const [play] = useSound(soundUrl, { volume: 0.6 });
+
 	useEffect(() => {
 		socket.disconnect();
 		socket.connect();
+		dispatch({ type: 'GET_NOTIFICATIONS' });
+		dispatch({ type: 'ALL_MESSAGES' });
+		dispatch({ type: 'GET_FRIEND_REQUESTS' });
+		dispatch({ type: 'GET_FRIENDS' });
 		socket.on('connect', () => {
 			dispatch({ type: 'FETCH_USER', payload: socket.id });
 			dispatch({ type: 'SET_CURRENT_SOCKET_ID', payload: socket.id });
@@ -31,6 +40,7 @@ function App() {
 		});
 		socket.on('private message', (data) => {
 			// alert('NEW MESSAGE');
+			play();
 			dispatch({ type: 'GET_NOTIFICATIONS' });
 		});
 	}, [dispatch, socket]);
