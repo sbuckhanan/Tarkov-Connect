@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import NotificationItem from '../NotificationItem/NotificationItem';
+import FriendRequestItem from '../FriendRequestItem/FriendRequestItem';
 
 import {
 	Drawer,
@@ -47,29 +49,9 @@ function SideBar() {
 		history.push(`/profile/${user.tarkov_name}`);
 	};
 
-	const goToMessage = (message) => {
-		dispatch({ type: 'GET_PROFILE', payload: message.from });
-		history.push(`/private/${message.from}`);
-	};
-
 	const privateMessage = (player) => {
 		dispatch({ type: 'GET_PROFILE', payload: player.tarkov_name });
 		history.push(`/private/${player.tarkov_name}`);
-	};
-
-	const markAsRead = (notificationId) => {
-		dispatch({ type: 'MARK_AS_READ', payload: notificationId });
-	};
-
-	const acceptFriend = (request) => {
-		dispatch({
-			type: 'ACCEPT_FRIEND',
-			payload: { id: request.id, friendId: request.sender_user_id },
-		});
-	};
-
-	const declineFriend = (request) => {
-		dispatch({ type: 'DECLINE_REQUEST', payload: { requester: request.sender_user_id } });
 	};
 
 	useEffect(() => {
@@ -119,36 +101,7 @@ function SideBar() {
 					<Collapse in={notificationOpen} timeout='auto' unmountOnExit>
 						<List component='div' style={{ maxHeight: 150, overflow: 'auto' }} disablePadding>
 							{notifications.map((notification) => {
-								return (
-									<div key={notification.id}>
-										<ListItem alignItems='flex-start'>
-											<ListItemText
-												secondary={
-													<>
-														<Typography
-															sx={{ display: 'inline' }}
-															component='span'
-															variant='body2'
-															color='text.primary'>
-															NEW MESSAGE <br />
-															{notification.from}{' '}
-														</Typography>
-														{notification.time}
-														<br />
-														{notification.message}
-														<br />
-														<span
-															className='markAsRead'
-															onClick={() => markAsRead(notification.id)}>
-															Mark as read
-														</span>
-													</>
-												}
-											/>
-										</ListItem>
-										<Divider />
-									</div>
-								);
+								return <NotificationItem key={notification.id} notification={notification} />;
 							})}
 						</List>
 					</Collapse>
@@ -173,31 +126,7 @@ function SideBar() {
 					<Collapse in={friendOpen} timeout='auto' unmountOnExit>
 						<List component='div' style={{ maxHeight: 150, overflow: 'auto' }} disablePadding>
 							{friendRequests.map((request) => {
-								return (
-									<ListItem alignItems='flex-start'>
-										<ListItemText
-											secondary={
-												<>
-													<span className='requestHeader'> New Friend Request</span>
-													<Typography
-														sx={{ display: 'inline' }}
-														component='span'
-														variant='body2'
-														color='text.primary'>
-														<br />
-														{request.tarkov_name} <br />
-														<span onClick={() => acceptFriend(request)} className='acceptButton'>
-															Accept
-														</span>{' '}
-														<span onClick={() => declineFriend(request)} className='declineButton'>
-															Decline
-														</span>
-													</Typography>
-												</>
-											}
-										/>
-									</ListItem>
-								);
+								return <FriendRequestItem request={request} />;
 							})}
 							{myFriends.map((friend) => {
 								return (
