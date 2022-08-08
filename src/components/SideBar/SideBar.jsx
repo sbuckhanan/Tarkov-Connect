@@ -29,6 +29,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import useStyles from '../../hooks/useStyle';
 import SideBarMessage from '../SideBarMessage/SideBarMessage';
+import FriendItem from '../FriendItem/FriendItem';
 
 const drawerWidth = 280;
 
@@ -126,23 +127,7 @@ function SideBar() {
 								return <FriendRequestItem key={request.id} request={request} />;
 							})}
 							{myFriends.map((friend) => {
-								return (
-									<ListItem alignItems='flex-start'>
-										<ListItemText
-											secondary={
-												<>
-													<Typography
-														sx={{ display: 'inline' }}
-														component='span'
-														variant='body2'
-														color='text.primary'>
-														{friend.tarkov_name}
-													</Typography>
-												</>
-											}
-										/>
-									</ListItem>
-								);
+								return <FriendItem key={friend.id} friend={friend} />;
 							})}
 						</List>
 					</Collapse>
