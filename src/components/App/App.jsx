@@ -20,15 +20,16 @@ function App() {
 	const dispatch = useDispatch();
 
 	const user = useSelector((store) => store.user);
-	const socketId = useSelector((store) => store.currentSocketId);
 
 	useEffect(() => {
-		dispatch({ type: 'GET_NOTIFICATIONS' });
 		socket.disconnect();
 		socket.connect();
 		socket.on('connect', () => {
 			dispatch({ type: 'FETCH_USER', payload: socket.id });
 			dispatch({ type: 'SET_CURRENT_SOCKET_ID', payload: socket.id });
+			dispatch({ type: 'GET_NOTIFICATIONS' });
+			dispatch({ type: 'GET_FRIEND_REQUESTS' });
+			dispatch({ type: 'GET_FRIENDS' });
 			console.log(socket.id); // an alphanumeric id...
 		});
 		socket.on('private message', (data) => {

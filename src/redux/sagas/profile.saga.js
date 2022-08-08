@@ -7,7 +7,7 @@ function* getProfile(action) {
 		const id = yield axios.get(`/api/profile/personId/${action.payload}`);
 		const feedback = yield axios.get(`/api/profile/feedback/${id.data[0].id}`);
 		const info = yield axios.get(`/api/profile/info/${action.payload}`);
-		const friends = yield axios.get(`/api/friends/${id.data[0].id}`);
+		const friends = yield axios.get(`/api/friends/areFriends/${id.data[0].id}`);
 		friends.data.id ? (areFriends = true) : (areFriends = false);
 		yield put({
 			type: 'SET_PROFILE',

@@ -191,9 +191,11 @@ function Profile() {
 						{profile.user_info?.tarkov_name}
 						{profile.user_info?.id !== user.id ? (
 							<>
-								<span>
-									<PersonAddIcon onClick={requestAsFriend} />
-								</span>
+								{profile?.friends ? null : (
+									<span>
+										<PersonAddIcon onClick={requestAsFriend} />
+									</span>
+								)}
 								<span>
 									<ChatIcon onClick={() => privateMessage(profile.user_info?.id)} />
 								</span>

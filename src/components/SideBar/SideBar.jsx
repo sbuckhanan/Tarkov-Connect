@@ -39,6 +39,8 @@ function SideBar() {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const classes = useStyles();
+	const friendRequests = useSelector((store) => store.friendRequests);
+	const myFriends = useSelector((store) => store.myFriends);
 
 	const goToProfile = () => {
 		dispatch({ type: 'GET_PROFILE', payload: user.tarkov_name });
@@ -57,6 +59,13 @@ function SideBar() {
 
 	const markAsRead = (notificationId) => {
 		dispatch({ type: 'MARK_AS_READ', payload: notificationId });
+	};
+
+	const acceptFriend = (request) => {
+		dispatch({
+			type: 'ACCEPT_FRIEND',
+			payload: { id: request.id, friendId: request.sender_user_id },
+		});
 	};
 
 	useEffect(() => {
@@ -156,21 +165,50 @@ function SideBar() {
 					</ListItem>
 					<Collapse in={friendOpen} timeout='auto' unmountOnExit>
 						<List component='div' style={{ maxHeight: 150, overflow: 'auto' }} disablePadding>
-							<ListItem alignItems='flex-start'>
-								<ListItemText
-									secondary={
-										<>
-											<Typography
-												sx={{ display: 'inline' }}
-												component='span'
-												variant='body2'
-												color='text.primary'>
-												Ali Connors
-											</Typography>
-										</>
-									}
-								/>
-							</ListItem>
+							{friendRequests.map((request) => {
+								return (
+									<ListItem alignItems='flex-start'>
+										<ListItemText
+											secondary={
+												<>
+													<span className='requestHeader'> New Friend Request</span>
+													<Typography
+														sx={{ display: 'inline' }}
+														component='span'
+														variant='body2'
+														color='text.primary'>
+														<br />
+														{request.tarkov_name} <br />
+														<span onClick={() => acceptFriend(request)} className='acceptButton'>
+															Accept
+														</span>{' '}
+														<span className='declineButton'>Decline</span>
+													</Typography>
+												</>
+											}
+										/>
+									</ListItem>
+								);
+							})}
+							{myFriends.map((friend) => {
+								return (
+									<ListItem alignItems='flex-start'>
+										<ListItemText
+											secondary={
+												<>
+													<Typography
+														sx={{ display: 'inline' }}
+														component='span'
+														variant='body2'
+														color='text.primary'>
+														{friend.tarkov_name}
+													</Typography>
+												</>
+											}
+										/>
+									</ListItem>
+								);
+							})}
 						</List>
 					</Collapse>
 					{/* first drop down */}

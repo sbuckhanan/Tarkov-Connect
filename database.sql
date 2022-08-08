@@ -59,6 +59,6 @@ CREATE TABLE "user_friends" (
 
 CREATE TABLE "friend_requests" (
 	"id" SERIAL PRIMARY KEY,
-    "requester_user_id" INT REFERENCES "user",
+    "receiver_user_id" INT REFERENCES "user",
     "sender_user_id" INT REFERENCES "user"
 );

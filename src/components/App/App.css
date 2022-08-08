@@ -140,3 +140,21 @@ input {
 .notificationCard {
 	cursor: pointer;
 }
+
+.requestHeader {
+	font: 16px;
+	font-weight: 800;
+	color: black;
+}
+
+.acceptButton {
+	color: blue;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.declineButton {
+	color: blue;
+	text-decoration: underline;
+	cursor: pointer;
+}

@@ -9,6 +9,8 @@ import currentSocketId from './socketId.reducer';
 import allMessages from './allMessages.reducer';
 import notificationReducer from './notifcation.reducer';
 import totalNotifications from './totalNotifications.reducer';
+import friendRequests from './friendRequests.reducer';
+import myFriends from './myFriends.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -27,6 +29,8 @@ const rootReducer = combineReducers({
 	allMessages,
 	notificationReducer,
 	totalNotifications,
+	friendRequests,
+	myFriends,
 });
 
 export default rootReducer;
