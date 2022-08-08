@@ -19,6 +19,7 @@ import {
 	List,
 	Badge,
 } from '@mui/material';
+
 import MessageIcon from '@mui/icons-material/Message';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -27,6 +28,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import useStyles from '../../hooks/useStyle';
+import SideBarMessage from '../SideBarMessage/SideBarMessage';
 
 const drawerWidth = 280;
 
@@ -47,11 +49,6 @@ function SideBar() {
 	const goToProfile = () => {
 		dispatch({ type: 'GET_PROFILE', payload: user.tarkov_name });
 		history.push(`/profile/${user.tarkov_name}`);
-	};
-
-	const privateMessage = (player) => {
-		dispatch({ type: 'GET_PROFILE', payload: player.tarkov_name });
-		history.push(`/private/${player.tarkov_name}`);
 	};
 
 	useEffect(() => {
@@ -126,7 +123,7 @@ function SideBar() {
 					<Collapse in={friendOpen} timeout='auto' unmountOnExit>
 						<List component='div' style={{ maxHeight: 150, overflow: 'auto' }} disablePadding>
 							{friendRequests.map((request) => {
-								return <FriendRequestItem request={request} />;
+								return <FriendRequestItem key={request.id} request={request} />;
 							})}
 							{myFriends.map((friend) => {
 								return (
@@ -160,30 +157,7 @@ function SideBar() {
 					<Collapse in={messageOpen} timeout='auto' unmountOnExit>
 						<List component='div' style={{ maxHeight: 150, overflow: 'auto' }} disablePadding>
 							{messages.map((message) => {
-								return (
-									<div key={message.message_id}>
-										<ListItem alignItems='flex-start'>
-											<ListItemText
-												onClick={() => privateMessage(message)}
-												secondary={
-													<>
-														<Typography
-															sx={{ display: 'inline' }}
-															component='span'
-															variant='body2'
-															color='text.primary'>
-															{message.tarkov_name}{' '}
-														</Typography>
-														{message.time}
-														<br />
-														{message.message}
-													</>
-												}
-											/>
-										</ListItem>
-										<Divider />
-									</div>
-								);
+								return <SideBarMessage message={message} />;
 							})}
 						</List>
 					</Collapse>
