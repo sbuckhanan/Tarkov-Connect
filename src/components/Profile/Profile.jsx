@@ -24,6 +24,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ChatIcon from '@mui/icons-material/Chat';
 import SendIcon from '@mui/icons-material/Send';
 import CloseIcon from '@mui/icons-material/Close';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
 import './Profile.css';
 
@@ -163,6 +164,16 @@ function Profile() {
 		});
 	};
 
+	const removeFriend = () => {
+		dispatch({
+			type: 'REMOVE_FRIEND',
+			payload: {
+				friendId: profile.user_info.id,
+				profileName: profile.user_info.tarkov_name,
+			},
+		});
+	};
+
 	const requestAsFriend = () => {
 		dispatch({
 			type: 'REQUEST_FRIEND',
@@ -191,13 +202,32 @@ function Profile() {
 						{profile.user_info?.tarkov_name}
 						{profile.user_info?.id !== user.id ? (
 							<>
-								{profile?.friends ? null : (
+								{profile?.friends ? (
 									<span className='addFriendButton'>
-										<PersonAddIcon onClick={requestAsFriend} />
+										<Chip
+											style={{ backgroundColor: 'white' }}
+											onClick={removeFriend}
+											icon={<PersonRemoveIcon />}
+											label='Remove Friend'
+										/>
+									</span>
+								) : (
+									<span className='addFriendButton'>
+										<Chip
+											style={{ backgroundColor: 'white' }}
+											onClick={requestAsFriend}
+											icon={<PersonAddIcon />}
+											label='Add Friend'
+										/>
 									</span>
 								)}
 								<span className='privateMessageButton'>
-									<ChatIcon onClick={() => privateMessage(profile.user_info?.id)} />
+									<Chip
+										style={{ backgroundColor: 'white' }}
+										onClick={() => privateMessage(profile.user_info?.id)}
+										icon={<ChatIcon />}
+										label='Send Message'
+									/>
 								</span>
 							</>
 						) : null}

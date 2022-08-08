@@ -154,4 +154,24 @@ router.delete('/decline/:id', (req, res) => {
 	}
 });
 
+//? This will post new friend for both users
+router.delete('/delete/:id', (req, res) => {
+	if (req.isAuthenticated()) {
+		const id = req.params.id;
+		const queryText = 'DELETE FROM user_friends WHERE user_id = $1 AND friend_id = $2;';
+		pool.query(queryText, [id, req.user.id]);
+		pool
+			.query(queryText, [req.user.id, id])
+			.then((result) => {
+				res.sendStatus(200);
+			})
+			.catch((error) => {
+				console.log('Error deleting friend', error);
+				res.sendStatus(500);
+			});
+	} else {
+		res.sendStatus(403);
+	}
+});
+
 module.exports = router;

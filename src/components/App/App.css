@@ -162,6 +162,7 @@ input {
 .addFriendButton {
 	cursor: pointer;
 	margin-left: 8px;
+	color: white;
 }
 
 .privateMessageButton {

@@ -38,6 +38,17 @@ function* declineFriend(action) {
 	}
 }
 
+function* deleteFriend(action) {
+	try {
+		yield axios.delete(`/api/friends/delete/${action.payload.friendId}`);
+		yield put({ type: 'GET_FRIENDS' });
+		yield put({ type: 'GET_FRIEND_REQUESTS' });
+		yield put({ type: 'GET_PROFILE', payload: action.payload.profileName });
+	} catch (error) {
+		console.log('Error with deleting friend', error);
+	}
+}
+
 function* getFriends() {
 	try {
 		const myFriends = yield axios.get('/api/friends');
@@ -62,6 +73,7 @@ function* requestFriendSaga() {
 	yield takeLatest('GET_FRIEND_REQUESTS', getFriendRequests);
 	yield takeLatest('ACCEPT_FRIEND', acceptFriend);
 	yield takeLatest('DECLINE_REQUEST', declineFriend);
+	yield takeLatest('REMOVE_FRIEND', deleteFriend);
 }
 
 export default requestFriendSaga;
