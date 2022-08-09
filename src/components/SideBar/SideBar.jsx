@@ -86,7 +86,9 @@ function SideBar() {
 				anchor='left'
 				className='SideBarContainer'>
 				<Toolbar />
-				<span onClick={goToProfile}>{user.tarkov_name}</span>
+				<span className='nameText' onClick={goToProfile}>
+					{user.tarkov_name}
+				</span>
 				<Divider />
 				<List>
 					<ListItemButton onClick={() => setNotificationOpen(!notificationOpen)}>

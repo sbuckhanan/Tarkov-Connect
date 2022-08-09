@@ -272,3 +272,9 @@ input {
 .member {
 	color: white;
 }
+
+.nameText {
+	font-weight: 800;
+	margin-left: 5px;
+	font-size: 18px;
+}
