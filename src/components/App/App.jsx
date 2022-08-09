@@ -39,7 +39,6 @@ function App() {
 			console.log(socket.id); // an alphanumeric id...
 		});
 		socket.on('private message', (data) => {
-			// alert('NEW MESSAGE');
 			play();
 			dispatch({ type: 'GET_NOTIFICATIONS' });
 			dispatch({ type: 'ALL_MESSAGES' });

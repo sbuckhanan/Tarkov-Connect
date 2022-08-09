@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Alert from '@mui/material/Alert';
 
 function RegisterForm() {
 	const [username, setUsername] = useState('');
@@ -24,67 +25,71 @@ function RegisterForm() {
 	}; // end registerUser
 
 	return (
-		<form className='formPanel' onSubmit={registerUser}>
+		<>
 			<center>
-				<h2>Create New Account</h2>
 				{errors.registrationMessage && (
-					<h3 className='alert' role='alert'>
+					<Alert variant='filled' severity='error' sx={{ width: '40%' }}>
 						{errors.registrationMessage}
-					</h3>
+					</Alert>
 				)}
-				<div>
-					<label htmlFor='username'>
-						Email:
-						<input
-							type='text'
-							name='username'
-							value={username}
-							required
-							onChange={(event) => setUsername(event.target.value)}
-						/>
-					</label>
-				</div>
-				<div>
-					<label htmlFor='password'>
-						Password:
-						<input
-							type='password'
-							name='password'
-							value={password}
-							required
-							onChange={(event) => setPassword(event.target.value)}
-						/>
-					</label>
-				</div>
-				<div>
-					<label htmlFor='tarkovName'>
-						Tarkov Name:
-						<input
-							type='text'
-							name='tarkovName'
-							value={tarkov_name}
-							required
-							onChange={(event) => setTarkovName(event.target.value)}
-						/>
-					</label>
-				</div>
-				<div>
-					<label htmlFor='level'>
-						Tarkov Level:
-						<input
-							type='number'
-							name='level'
-							value={level}
-							required
-							onChange={(event) => setLevel(event.target.value)}
-						/>
-					</label>
-				</div>
-				<div>
-					<input className='btn' type='submit' name='submit' value='Register' />
-				</div>
 			</center>
-		</form>
+			<form className='formPanel' onSubmit={registerUser}>
+				<center>
+					<h2>Create New Account</h2>
+					<div>
+						<label htmlFor='username'>
+							Email:
+							<input
+								type='text'
+								name='username'
+								value={username}
+								required
+								onChange={(event) => setUsername(event.target.value)}
+							/>
+						</label>
+					</div>
+					<div>
+						<label htmlFor='password'>
+							Password:
+							<input
+								type='password'
+								name='password'
+								value={password}
+								required
+								onChange={(event) => setPassword(event.target.value)}
+							/>
+						</label>
+					</div>
+					<div>
+						<label htmlFor='tarkovName'>
+							Tarkov Name:
+							<input
+								type='text'
+								name='tarkovName'
+								value={tarkov_name}
+								required
+								onChange={(event) => setTarkovName(event.target.value)}
+							/>
+						</label>
+					</div>
+					<div>
+						<label htmlFor='level'>
+							Tarkov Level:
+							<input
+								type='number'
+								name='level'
+								value={level}
+								required
+								onChange={(event) => setLevel(event.target.value)}
+							/>
+						</label>
+					</div>
+					<div>
+						<input className='btn' type='submit' name='submit' value='Register' />
+					</div>
+				</center>
+			</form>
+		</>
 	);
 }
 

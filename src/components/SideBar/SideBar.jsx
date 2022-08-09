@@ -53,10 +53,10 @@ function SideBar() {
 	};
 
 	useEffect(() => {
-		dispatch({ type: 'ALL_MESSAGES' });
-		dispatch({ type: 'GET_NOTIFICATIONS' });
-		dispatch({ type: 'GET_FRIEND_REQUESTS' });
-		dispatch({ type: 'GET_FRIENDS' });
+		// dispatch({ type: 'ALL_MESSAGES' });
+		// dispatch({ type: 'GET_NOTIFICATIONS' });
+		// dispatch({ type: 'GET_FRIEND_REQUESTS' });
+		// dispatch({ type: 'GET_FRIENDS' });
 	}, []);
 
 	return (
