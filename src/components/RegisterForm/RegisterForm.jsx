@@ -38,7 +38,7 @@ function RegisterForm() {
 			<form className='formPanel'>
 				<center>
 					<h2>Create New Account</h2>
-					<label class='inp' htmlFor='inp'>
+					<label className='inp' htmlFor='inp'>
 						<input
 							id='inp'
 							type='text'
@@ -47,10 +47,10 @@ function RegisterForm() {
 							required
 							onChange={(event) => setUsername(event.target.value)}
 						/>
-						<span class='label'>Username</span>
-						<span class='focus-bg'></span>
+						<span className='label'>Username</span>
+						<span className='focus-bg'></span>
 					</label>
-					<label class='inp' htmlFor='inp'>
+					<label className='inp' htmlFor='inp'>
 						<input
 							id='inp'
 							type='password'
@@ -59,10 +59,10 @@ function RegisterForm() {
 							required
 							onChange={(event) => setPassword(event.target.value)}
 						/>
-						<span class='label'>Password</span>
-						<span class='focus-bg'></span>
+						<span className='label'>Password</span>
+						<span className='focus-bg'></span>
 					</label>
-					<label class='inp' htmlFor='inp'>
+					<label className='inp' htmlFor='inp'>
 						<input
 							id='inp'
 							type='text'
@@ -71,10 +71,10 @@ function RegisterForm() {
 							required
 							onChange={(event) => setTarkovName(event.target.value)}
 						/>
-						<span class='label'>Tarkov Name</span>
-						<span class='focus-bg'></span>
+						<span className='label'>Tarkov Name</span>
+						<span className='focus-bg'></span>
 					</label>
-					<label class='inp' htmlFor='inp'>
+					<label className='inp' htmlFor='inp'>
 						<input
 							id='inp'
 							type='number'
@@ -83,8 +83,8 @@ function RegisterForm() {
 							required
 							onChange={(event) => setLevel(event.target.value)}
 						/>
-						<span class='label'>Tarkov Level</span>
-						<span class='focus-bg'></span>
+						<span className='label'>Tarkov Level</span>
+						<span className='focus-bg'></span>
 					</label>
 					<div>
 						<Chip

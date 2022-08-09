@@ -41,7 +41,7 @@ function LoginForm() {
 			<form className='formPanelLogin' onSubmit={login}>
 				<center>
 					<h2>Welcome!</h2>
-					<label class='inp' htmlFor='inp'>
+					<label className='inp' htmlFor='inp'>
 						<input
 							id='inp'
 							type='text'
@@ -50,10 +50,10 @@ function LoginForm() {
 							value={username}
 							onChange={(event) => setUsername(event.target.value)}
 						/>
-						<span class='label'>Email</span>
-						<span class='focus-bg'></span>
+						<span className='label'>Email</span>
+						<span className='focus-bg'></span>
 					</label>
-					<label class='inp' htmlFor='inp'>
+					<label className='inp' htmlFor='inp'>
 						<input
 							id='inp'
 							type='password'
@@ -62,8 +62,8 @@ function LoginForm() {
 							value={password}
 							onChange={(event) => setPassword(event.target.value)}
 						/>
-						<span class='label'>Password</span>
-						<span class='focus-bg'></span>
+						<span className='label'>Password</span>
+						<span className='focus-bg'></span>
 					</label>
 					<div>
 						<Chip

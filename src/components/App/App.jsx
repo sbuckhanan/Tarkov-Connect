@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import AboutPage from '../AboutPage/AboutPage';
-import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
-import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import socket from '../../socket/socket';
@@ -52,7 +50,7 @@ function App() {
 			<div>
 				<Switch>
 					{/* Visiting localhost:3000 will redirect to localhost:3000/home */}
-					<Redirect exact from='/' to='/home' />
+					<Redirect exact from='/' to='/registration' />
 
 					{/* Visiting localhost:3000/about will show the about page. */}
 					<Route
@@ -61,12 +59,6 @@ function App() {
 						path='/about'>
 						<AboutPage />
 					</Route>
-					<ProtectedRoute
-						// logged in shows UserPage else shows LoginPage
-						exact
-						path='/user'>
-						<UserPage />
-					</ProtectedRoute>
 
 					<ProtectedRoute
 						// logged in shows InfoPage else shows LoginPage
@@ -115,17 +107,6 @@ function App() {
 						) : (
 							// Otherwise, show the registration page
 							<RegisterPage />
-						)}
-					</Route>
-
-					<Route exact path='/home'>
-						{user.id ? (
-							// If the user is already logged in,
-							// redirect them to the /user page
-							<Redirect to='/global' />
-						) : (
-							// Otherwise, show the Landing page
-							<LandingPage />
 						)}
 					</Route>
 
