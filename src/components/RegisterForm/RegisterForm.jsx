@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Alert from '@mui/material/Alert';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import Chip from '@mui/material/Chip';
 
 function RegisterForm() {
 	const [username, setUsername] = useState('');
@@ -33,59 +35,64 @@ function RegisterForm() {
 					</Alert>
 				)}
 			</center>
-			<form className='formPanel' onSubmit={registerUser}>
+			<form className='formPanel'>
 				<center>
 					<h2>Create New Account</h2>
+					<label class='inp' htmlFor='inp'>
+						<input
+							id='inp'
+							type='text'
+							name='username'
+							value={username}
+							required
+							onChange={(event) => setUsername(event.target.value)}
+						/>
+						<span class='label'>Username</span>
+						<span class='focus-bg'></span>
+					</label>
+					<label class='inp' htmlFor='inp'>
+						<input
+							id='inp'
+							type='password'
+							name='password'
+							value={password}
+							required
+							onChange={(event) => setPassword(event.target.value)}
+						/>
+						<span class='label'>Password</span>
+						<span class='focus-bg'></span>
+					</label>
+					<label class='inp' htmlFor='inp'>
+						<input
+							id='inp'
+							type='text'
+							name='tarkovName'
+							value={tarkov_name}
+							required
+							onChange={(event) => setTarkovName(event.target.value)}
+						/>
+						<span class='label'>Tarkov Name</span>
+						<span class='focus-bg'></span>
+					</label>
+					<label class='inp' htmlFor='inp'>
+						<input
+							id='inp'
+							type='number'
+							name='level'
+							value={level}
+							required
+							onChange={(event) => setLevel(event.target.value)}
+						/>
+						<span class='label'>Tarkov Level</span>
+						<span class='focus-bg'></span>
+					</label>
 					<div>
-						<label htmlFor='username'>
-							Email:
-							<input
-								type='text'
-								name='username'
-								value={username}
-								required
-								onChange={(event) => setUsername(event.target.value)}
-							/>
-						</label>
-					</div>
-					<div>
-						<label htmlFor='password'>
-							Password:
-							<input
-								type='password'
-								name='password'
-								value={password}
-								required
-								onChange={(event) => setPassword(event.target.value)}
-							/>
-						</label>
-					</div>
-					<div>
-						<label htmlFor='tarkovName'>
-							Tarkov Name:
-							<input
-								type='text'
-								name='tarkovName'
-								value={tarkov_name}
-								required
-								onChange={(event) => setTarkovName(event.target.value)}
-							/>
-						</label>
-					</div>
-					<div>
-						<label htmlFor='level'>
-							Tarkov Level:
-							<input
-								type='number'
-								name='level'
-								value={level}
-								required
-								onChange={(event) => setLevel(event.target.value)}
-							/>
-						</label>
-					</div>
-					<div>
-						<input className='btn' type='submit' name='submit' value='Register' />
+						<Chip
+							style={{ backgroundColor: 'white' }}
+							onClick={registerUser}
+							icon={<BorderColorIcon />}
+							label='Register'
+						/>
 					</div>
 				</center>
 			</form>

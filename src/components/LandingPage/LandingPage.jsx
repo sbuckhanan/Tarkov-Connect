@@ -18,7 +18,7 @@ function LandingPage() {
 				<RegisterForm />
 
 				<center>
-					<h4>Already a Member?</h4>
+					<h4 className='member'>Already a Member?</h4>
 					<button className='btn btn_sizeSm' onClick={onLogin}>
 						Login
 					</button>

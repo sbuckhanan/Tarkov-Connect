@@ -101,6 +101,18 @@ Form Treatment
 
 .formPanel {
 	box-sizing: border-box;
+	height: 450px;
+	width: 550px;
+	max-width: 100%;
+	padding: 25px;
+	margin: 0 auto 20px;
+	background-color: #efefef6d;
+	border-radius: 3px;
+	box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+}
+
+.formPanelLogin {
+	box-sizing: border-box;
 	height: 350px;
 	width: 500px;
 	max-width: 100%;
@@ -168,4 +180,95 @@ input {
 .privateMessageButton {
 	cursor: pointer;
 	margin-left: 8px;
+}
+
+/* From uiverse.io by @mobinkakei */
+.inp {
+	position: relative;
+	margin: 0;
+	margin-top: 0;
+	width: 100%;
+	max-width: 190px;
+	border-radius: 3px;
+	overflow: hidden;
+}
+
+.inp .label {
+	position: absolute;
+	top: -10px;
+	left: 12px;
+	font-size: 16px;
+	color: rgba(0, 0, 0, 0.5);
+	font-weight: 500;
+	transform-origin: 0 0;
+	transform: translate3d(0, 0, 0);
+	transition: all 0.2s ease;
+	pointer-events: none;
+}
+
+.inp .focus-bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.05);
+	z-index: -1;
+	transform: scaleX(0);
+	transform-origin: left;
+}
+
+.inp input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	width: 50%;
+	border: 0;
+	font-family: inherit;
+	padding: 16px 12px 0 12px;
+	height: 28px;
+	font-size: 16px;
+	font-weight: 400;
+	background: rgb(255, 255, 255);
+	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+	color: #000;
+	transition: all 0.15s ease;
+}
+
+.inp input:hover {
+	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.inp input:not(:-moz-placeholder-shown) + .label {
+	color: rgba(0, 0, 0, 0.5);
+	transform: translate3d(0, -12px, 0) scale(0.75);
+}
+
+.inp input:not(:-ms-input-placeholder) + .label {
+	color: rgba(0, 0, 0, 0.5);
+	transform: translate3d(0, -12px, 0) scale(0.75);
+}
+
+.inp input:not(:placeholder-shown) + .label {
+	color: rgba(0, 0, 0, 0.5);
+	transform: translate3d(0, -12px, 0) scale(0.75);
+}
+
+.inp input:focus {
+	outline: none;
+	box-shadow: inset 0 -2px 0 #0077ff;
+}
+
+.inp input:focus + .label {
+	color: #0077ff;
+	transform: translate3d(0, -12px, 0) scale(0.75);
+}
+
+.inp input:focus + .label + .focus-bg {
+	transform: scaleX(1);
+	transition: all 0.1s ease;
+}
+
+.member {
+	color: white;
 }

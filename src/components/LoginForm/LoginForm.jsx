@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import Alert from '@mui/material/Alert';
+import LoginIcon from '@mui/icons-material/Login';
+import Chip from '@mui/material/Chip';
 
 function LoginForm() {
 	const [username, setUsername] = useState('');
@@ -27,43 +30,52 @@ function LoginForm() {
 	}; // end login
 
 	return (
-		<form className='formPanel' onSubmit={login}>
+		<>
 			<center>
-				<h2>Welcome!</h2>
 				{errors.loginMessage && (
-					<h3 className='alert' role='alert'>
+					<Alert variant='filled' severity='error' sx={{ width: '40%' }}>
 						{errors.loginMessage}
-					</h3>
+					</Alert>
 				)}
-				<div>
-					<label htmlFor='username'>
-						Email:
+			</center>
+			<form className='formPanelLogin' onSubmit={login}>
+				<center>
+					<h2>Welcome!</h2>
+					<label class='inp' htmlFor='inp'>
 						<input
+							id='inp'
 							type='text'
 							name='username'
 							required
 							value={username}
 							onChange={(event) => setUsername(event.target.value)}
 						/>
+						<span class='label'>Email</span>
+						<span class='focus-bg'></span>
 					</label>
-				</div>
-				<div>
-					<label htmlFor='password'>
-						Password:
+					<label class='inp' htmlFor='inp'>
 						<input
+							id='inp'
 							type='password'
 							name='password'
 							required
 							value={password}
 							onChange={(event) => setPassword(event.target.value)}
 						/>
+						<span class='label'>Password</span>
+						<span class='focus-bg'></span>
 					</label>
-				</div>
-				<div>
-					<input className='btn' type='submit' name='submit' value='Log In' />
-				</div>
-			</center>
-		</form>
+					<div>
+						<Chip
+							style={{ backgroundColor: 'white' }}
+							onClick={login}
+							icon={<LoginIcon />}
+							label='Login'
+						/>
+					</div>
+				</center>
+			</form>
+		</>
 	);
 }
 
