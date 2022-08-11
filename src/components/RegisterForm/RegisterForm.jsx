@@ -47,7 +47,7 @@ function RegisterForm() {
 							required
 							onChange={(event) => setUsername(event.target.value)}
 						/>
-						<span className='label'>Username</span>
+						<span className='label'>Email</span>
 						<span className='focus-bg'></span>
 					</label>
 					<label className='inp' htmlFor='inp'>
