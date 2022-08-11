@@ -232,7 +232,7 @@ function Profile() {
 					<Toolbar />
 					<div className='profileContainer'>
 						<header>
-							{profile.user_info?.tarkov_name}
+							<span className='profileName'>{profile.user_info?.tarkov_name}</span>
 							{profile.user_info?.id !== user.id ? (
 								<>
 									{profile?.friends ? (
@@ -266,7 +266,7 @@ function Profile() {
 							) : null}
 						</header>
 						<ul>
-							<li>
+							<li className='profileItems'>
 								{' '}
 								Rating:{' '}
 								{profile.user_info?.rating < 5 && profile.user_info?.rating !== null ? (
@@ -283,7 +283,7 @@ function Profile() {
 									''
 								)}
 							</li>
-							<li>Level: {profile.user_info?.tarkov_level}</li>
+							<li className='profileItems'>Level: {profile.user_info?.tarkov_level}</li>
 						</ul>
 					</div>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

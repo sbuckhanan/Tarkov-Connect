@@ -278,3 +278,12 @@ input {
 	margin-left: 5px;
 	font-size: 18px;
 }
+
+.profileName {
+	font-weight: 800;
+	font-size: 24px;
+}
+
+.profileItems {
+	font-size: 18px;
+}
