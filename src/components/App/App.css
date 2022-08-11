@@ -287,3 +287,19 @@ input {
 .profileItems {
 	font-size: 18px;
 }
+
+.aboutPage {
+	background-color: rgba(255, 255, 255, 0.803);
+	text-align: center;
+	list-style-position: inside;
+}
+
+.headshot {
+	height: 400px;
+	width: 500px;
+}
+
+.finalWrapper {
+	text-align: center;
+	color: white;
+}

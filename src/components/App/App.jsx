@@ -10,6 +10,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import socket from '../../socket/socket';
 import Profile from '../Profile/Profile';
 import useSound from 'use-sound';
+import FinalPage from '../FinalPage/FinalPage';
 
 import './App.css';
 import GlobalChat from '../GlobalChat/GlobalChat';
@@ -77,16 +78,20 @@ function App() {
 					<ProtectedRoute
 						// logged in shows InfoPage else shows LoginPage
 						exact
-						path='/profile/:username'>
-						<Profile />
+						path='/global'>
+						<GlobalChat />
 					</ProtectedRoute>
 
 					<ProtectedRoute
 						// logged in shows InfoPage else shows LoginPage
 						exact
-						path='/private/:username'>
-						<PrivateChat />
+						path='/profile/:username'>
+						<Profile />
 					</ProtectedRoute>
+
+					<Route exact path='/me'>
+						<FinalPage />
+					</Route>
 
 					<Route exact path='/login'>
 						{user.id ? (
