@@ -32,7 +32,6 @@ function App() {
 		dispatch({ type: 'ALL_MESSAGES' });
 		dispatch({ type: 'GET_FRIEND_REQUESTS' });
 		dispatch({ type: 'GET_FRIENDS' });
-		dispatch({ type: 'FETCH_USER', payload: socket.id });
 		socket.on('connect', () => {
 			dispatch({ type: 'FETCH_USER', payload: socket.id });
 			dispatch({ type: 'SET_CURRENT_SOCKET_ID', payload: socket.id });
@@ -79,8 +78,8 @@ function App() {
 					<ProtectedRoute
 						// logged in shows InfoPage else shows LoginPage
 						exact
-						path='/global'>
-						<GlobalChat />
+						path='/private/:username'>
+						<PrivateChat />
 					</ProtectedRoute>
 
 					<ProtectedRoute
