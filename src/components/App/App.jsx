@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import AboutPage from '../AboutPage/AboutPage';
-import InfoPage from '../InfoPage/InfoPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import socket from '../../socket/socket';
@@ -61,31 +60,15 @@ function App() {
 						<AboutPage />
 					</Route>
 
-					<ProtectedRoute
-						// logged in shows InfoPage else shows LoginPage
-						exact
-						path='/info'>
-						<InfoPage />
-					</ProtectedRoute>
-
-					<ProtectedRoute
-						// logged in shows InfoPage else shows LoginPage
-						exact
-						path='/global'>
+					<ProtectedRoute exact path='/global'>
 						<GlobalChat />
 					</ProtectedRoute>
 
-					<ProtectedRoute
-						// logged in shows InfoPage else shows LoginPage
-						exact
-						path='/private/:username'>
+					<ProtectedRoute exact path='/private/:username'>
 						<PrivateChat />
 					</ProtectedRoute>
 
-					<ProtectedRoute
-						// logged in shows InfoPage else shows LoginPage
-						exact
-						path='/profile/:username'>
+					<ProtectedRoute exact path='/profile/:username'>
 						<Profile />
 					</ProtectedRoute>
 

@@ -3,6 +3,7 @@ const router = express.Router();
 const pool = require('../modules/pool');
 const moment = require('moment');
 
+//? This will get the id of a specific user by username
 router.get('/personId/:username', (req, res) => {
 	const username = req.params.username;
 	if (req.isAuthenticated()) {
@@ -21,7 +22,7 @@ router.get('/personId/:username', (req, res) => {
 	}
 });
 
-// This route should return all of the feedback of a specific user
+// This route should return all of the feedback comments of a specific user
 router.get('/feedback/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {
@@ -41,6 +42,7 @@ router.get('/feedback/:id', (req, res) => {
 	}
 });
 
+//? This will get all of the information about a user
 router.get('/info/:username', (req, res) => {
 	const username = req.params.username;
 	if (req.isAuthenticated()) {
@@ -81,6 +83,7 @@ router.post('/feedback', (req, res) => {
 	}
 });
 
+//? This will update a feedback
 router.put('/feedback', (req, res) => {
 	const { rating, comment, feedbackId } = req.body;
 	if (req.isAuthenticated()) {
@@ -99,6 +102,7 @@ router.put('/feedback', (req, res) => {
 	}
 });
 
+//? This will delete a feedback
 router.delete('/feedback/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {

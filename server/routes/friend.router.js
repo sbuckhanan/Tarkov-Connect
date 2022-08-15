@@ -21,25 +21,6 @@ router.get('/', (req, res) => {
 	}
 });
 
-//? This is used to get the user id of a specific user by username
-router.get('/personId/:username', (req, res) => {
-	const username = req.params.username;
-	if (req.isAuthenticated()) {
-		const queryText = 'SELECT "user".id FROM "user" WHERE "user".tarkov_name = $1;';
-		pool
-			.query(queryText, [username])
-			.then((result) => {
-				res.send(result.rows);
-			})
-			.catch((error) => {
-				console.log(error);
-				res.sendStatus(500);
-			});
-	} else {
-		res.sendStatus(403);
-	}
-});
-
 //? This route is used to get all the friend requests a specific user has received
 router.get('/requests', (req, res) => {
 	console.log('HERE IS USER', req.user.id);
