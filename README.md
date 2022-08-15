@@ -11,7 +11,7 @@
 <h3 align="center">Tarkov Connect</h3>
 
   <p align="center">
-    This is an application where you can add a list of movies. In this list of movies you will be able to view the movies Title, Description, Picture, and any genres that movie may have. You can add new movies to the list by navigating to the add movie page from the nav bar. You can edit anything about a specific movie by clicking it and then clicking the edit movie button. You can also find the option to delete the movie next to the edit button.
+    In the game Escape From Tarkov there are very few ways to find someone new to play the game with. The only real way to find someone is via discord. The problem with this is you can never fully trust some stranger you met on discord when it comes to Tarkov. This person could kill you and take all of your stuff at any given moment. So I introduce you to Tarkov Connect. With Tarkov Connect you can live chat with other people who play Escape From Tarkov to find others to play with. You might ask how is this different from discord? Tarkov Connect also feature a built in feedback system where each player will have a trust rating on a scale of 1-10. 1 Being the worst and 10 being the best. Each players profile will also show comments that other users have left about their experience playing with that person. This helps you avoid playing with someone who is not trustable long before you get into a raid with them. Tarkov Connect also includes many other feature such as Notification System, Friend System, Private Messaging, Ect.
     <br />
     <br />
     <br />
@@ -47,8 +47,6 @@
   </ol>
 </details>
 
-<!-- ABOUT THE PROJECT -->
-
 ## About The Project
 
 ### Built With
@@ -61,7 +59,7 @@
 2. ```sh
    npm install
    ```
-3. Create a database called 'saga_movies_weekend'
+3. Create a database called 'tarkov_connect'
 4. Run the database.sql file
 5. Open 2 terminals
 6. ```sh
