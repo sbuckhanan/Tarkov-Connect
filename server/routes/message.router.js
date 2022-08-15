@@ -196,7 +196,7 @@ router.put('/notifications/:id', (req, res) => {
 	}
 });
 
-// This route will set unread notification to read
+// This route will post a new notification
 router.post('/notifications', (req, res) => {
 	const { name, receiverId, message } = req.body;
 	const timePosted = moment().format('LLL');
@@ -216,6 +216,7 @@ router.post('/notifications', (req, res) => {
 	}
 });
 
+//? This route will update a private message
 router.put('/privateMessage/:id', (req, res) => {
 	const id = req.params.id;
 	const { message } = req.body;
@@ -235,6 +236,7 @@ router.put('/privateMessage/:id', (req, res) => {
 	}
 });
 
+//? This route will delete a private message
 router.delete('/privateMessage/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {

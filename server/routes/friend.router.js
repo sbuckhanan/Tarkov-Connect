@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../modules/pool');
 
+// This route is used to get all of a users friends
 router.get('/', (req, res) => {
 	if (req.isAuthenticated()) {
 		const queryText =
@@ -20,6 +21,7 @@ router.get('/', (req, res) => {
 	}
 });
 
+//? This is used to get the user id of a specific user by username
 router.get('/personId/:username', (req, res) => {
 	const username = req.params.username;
 	if (req.isAuthenticated()) {
@@ -38,6 +40,7 @@ router.get('/personId/:username', (req, res) => {
 	}
 });
 
+//? This route is used to get all the friend requests a specific user has received
 router.get('/requests', (req, res) => {
 	console.log('HERE IS USER', req.user.id);
 	if (req.isAuthenticated()) {
@@ -58,6 +61,7 @@ router.get('/requests', (req, res) => {
 	}
 });
 
+//? This route checks if two users are friends. If they are it will return something. If not it will return nothing
 router.get('/areFriends/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {
@@ -76,7 +80,7 @@ router.get('/areFriends/:id', (req, res) => {
 	}
 });
 
-//? This will post a new friend request
+//? This will post a new friend request made by a user
 router.post('/', (req, res) => {
 	const { receiverId } = req.body;
 	if (req.isAuthenticated()) {
@@ -96,7 +100,7 @@ router.post('/', (req, res) => {
 	}
 });
 
-//? This will post a new friend request
+//? This will delete a friend request
 router.delete('/requests/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {
@@ -135,6 +139,7 @@ router.post('/accept', (req, res) => {
 	}
 });
 
+//? This will delete a friend request if it is denied by the receiver
 router.delete('/decline/:id', (req, res) => {
 	if (req.isAuthenticated()) {
 		const id = req.params.id;
@@ -154,7 +159,7 @@ router.delete('/decline/:id', (req, res) => {
 	}
 });
 
-//? This will post new friend for both users
+//? This will delete someone as a friend for both users
 router.delete('/delete/:id', (req, res) => {
 	if (req.isAuthenticated()) {
 		const id = req.params.id;

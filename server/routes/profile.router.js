@@ -21,7 +21,7 @@ router.get('/personId/:username', (req, res) => {
 	}
 });
 
-// This route should return all of the messages
+// This route should return all of the feedback of a specific user
 router.get('/feedback/:id', (req, res) => {
 	const id = req.params.id;
 	if (req.isAuthenticated()) {
@@ -60,7 +60,7 @@ router.get('/info/:username', (req, res) => {
 	}
 });
 
-//? This will post a new message
+//? This will post a new feedback
 router.post('/feedback', (req, res) => {
 	const timePosted = moment().format('LLL');
 	const { rating, comment, receiver } = req.body;
