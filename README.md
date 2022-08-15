@@ -51,7 +51,7 @@
 
 ### Built With
 
-![react.js] ![JavaScript] ![Redux] ![Redux-Saga] ![MUI] ![PostgreSQL] ![Node.js] ![Express]
+![react.js] ![JavaScript] ![Redux] ![Redux-Saga] ![MUI] ![PostgreSQL] ![Node.js] ![Express] ![socket]
 
 ## Installation
 
@@ -116,3 +116,4 @@ Thanks to [Prime Digital Academy](www.primeacademy.io) who equipped and helped m
 [postgresql]: https://img.shields.io/badge/PostgreSQL-20232A?style=for-the-badge&logo=PostgreSQL&logoColor=4169E1
 [node.js]: https://img.shields.io/badge/Node.js-20232A?style=for-the-badge&logo=Node.js&logoColor=339933
 [express]: https://img.shields.io/badge/Express.js-20232A?style=for-the-badge&logo=Express&logoColor=F7DF1E
+[socket]: https://img.shields.io/badge/Socket.io-20232A?style=for-the-badge&logo=Socket.io&logoColor=F7DF1E
